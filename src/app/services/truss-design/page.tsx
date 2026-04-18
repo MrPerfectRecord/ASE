@@ -11,14 +11,26 @@ export default function TrussDesignPage() {
       expertise={[
         {
           icon: "triangle",
-          title: "Analyze new trusses for structural performance and code compliance",
-          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          title: "New Truss Analysis",
+          desc: "We collaborate with developers and architects to review truss designs before fabrication, ensuring load paths are correctly calculated and that the system is optimized for its specific environmental demands.",
           linkText: "PLACEHOLDER",
         },
         {
           icon: "tool",
-          title: "Repair and strengthening strategies for existing truss systems",
-          desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          title: "Forensic Repair Solutions",
+          desc: "For trusses that have been compromised by fire, moisture, or improper field modifications, we provide sealed repair details. We focus on cost-effective, \"buildable\" solutions that restore the full design capacity of the member without requiring a full system replacement.",
+          linkText: "PLACEHOLDER",
+        },
+        {
+          icon: "search",
+          title: "Structural Condition Assessments",
+          desc: "We perform on-site inspections of existing truss systems to identify signs of distress—such as sagging, cracking, or connector plate pull-out—and provide actionable engineering reports for property owners and managers.",
+          linkText: "PLACEHOLDER",
+        },
+        {
+          icon: "clipboard",
+          title: "Code Compliance & Permitting",
+          desc: "We assist clients in navigating the complexities of local building departments by providing the necessary structural calculations and stamped documentation required for truss-related repairs and renovations.",
           linkText: "PLACEHOLDER",
         },
       ]}
