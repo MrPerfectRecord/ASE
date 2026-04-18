@@ -1,18 +1,12 @@
 import Link from "next/link";
 import FooterCTA from "@/components/FooterCTA";
 import USMap from "@/components/USMap";
+import TeamSection from "@/components/TeamSection";
 
 export const metadata = {
   title: "About Us | Arizona Structural Experts",
   description: "Learn about Arizona Structural Experts, our structural engineering team, and our commitment to precise design, retrofit, truss, and forensic engineering solutions.",
 };
-
-const team = [
-  { name: "Marcor Platt", role: "Principal Structural Engineer" },
-  { name: "Laura Platt", role: "Operations and Client Relations" },
-  { name: "Eduardo", role: "Structural Engineer" },
-  { name: "Sam", role: "Forensic Engineering Specialist" },
-];
 
 export default function AboutPage() {
   return (
@@ -123,39 +117,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section id="team" className="bg-section-a py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-12 flex flex-col items-end justify-between gap-8 md:flex-row">
-            <div className="max-w-xl">
-              <span className="mb-4 block text-xs font-semibold tracking-widest text-accent-500 uppercase">The Experts</span>
-              <h2 className="font-display text-3xl font-semibold text-primary-500 md:text-4xl">The Core Engineering Team</h2>
-              <div className="mt-3 h-1 w-1/3 max-w-[7.5rem] bg-accent-500" />
-            </div>
-            <p className="max-w-sm border-l-2 border-primary-500 pl-6 italic text-steel-600">Structural engineers and specialists focused on code-aligned design, practical solutions, and clear communication.</p>
-          </div>
-
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {team.map((member) => (
-              <article key={member.name} className="flex flex-col">
-                <div className="relative w-full overflow-visible">
-                  <div className="overflow-hidden rounded" style={{ aspectRatio: "9/10" }}>
-                    <img
-                      src="/team/team-silhouette-placeholder.svg"
-                      alt={`Placeholder silhouette for ${member.name}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="relative z-10 mx-auto -mt-8 w-[88%] max-w-[280px] bg-white px-6 py-5 text-center shadow-[0_4px_20px_rgba(47,47,47,0.10)]">
-                    <h3 className="font-display text-base font-semibold leading-snug text-steel-800">{member.name}</h3>
-                    <p className="mt-1.5 text-sm font-normal leading-snug text-steel-500">{member.role}</p>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TeamSection />
 
       {/* Licensing / Where We Work Section */}
       <section id="licensing" className="bg-section-c py-20 md:py-24">

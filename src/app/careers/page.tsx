@@ -1,14 +1,43 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, orderBy, where } from "firebase/firestore";
+
+interface Job {
+  id: string;
+  title: string;
+  description: string;
+  qualifications: string[];
+  active: boolean;
+  order: number;
+}
 
 export default function CareersPage() {
   const [copied, setCopied] = useState(false);
+  const [jobs, setJobs] = useState<Job[]>([]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText("admin@azstructuralexperts.com");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const q = query(
+          collection(db, "careers"),
+          where("active", "==", true),
+          orderBy("order", "asc")
+        );
+        const snap = await getDocs(q);
+        setJobs(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Job)));
+      } catch {
+        // no active jobs or index not ready
+      }
+    };
+    fetch();
+  }, []);
 
   return (
     <div className="bg-section-a min-h-screen">
@@ -25,6 +54,31 @@ export default function CareersPage() {
             We hire structural engineers in Utah and Arizona. Email your resume to start—or read qualifications first if you prefer.
           </p>
         </div>
+
+        {/* Open positions */}
+        {jobs.length > 0 && (
+          <div id="qualifications" className="pb-12 max-w-2xl space-y-4">
+            <h2 className="font-display text-xl font-semibold text-primary-500 mb-2">Open Positions</h2>
+            {jobs.map((job) => (
+              <div key={job.id} className="bg-white border border-steel-200/40 rounded p-6">
+                <h3 className="font-bold text-steel-800 text-base mb-2">{job.title}</h3>
+                {job.description && (
+                  <p className="text-steel-600 text-sm leading-relaxed mb-4">{job.description}</p>
+                )}
+                {job.qualifications.length > 0 && (
+                  <ul className="space-y-1.5">
+                    {job.qualifications.map((q, i) => (
+                      <li key={i} className="flex gap-2 text-sm text-steel-600">
+                        <span className="text-accent-500 shrink-0 mt-0.5">✓</span>
+                        {q}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Cards */}
         <div className="pb-24 space-y-6 max-w-2xl">
@@ -64,12 +118,14 @@ export default function CareersPage() {
                 </svg>
                 Send resume &amp; CV
               </a>
-              <a href="#qualifications" className="btn-outline-dark">
-                View job qualifications
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
+              {jobs.length > 0 && (
+                <a href="#qualifications" className="btn-outline-dark">
+                  View job qualifications
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              )}
             </div>
 
             <div className="flex items-center gap-2 mb-1">

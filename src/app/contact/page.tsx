@@ -1,12 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
+
+const defaultContact = {
+  address: "South Jordan, Utah",
+  phone: "(602) 313-1422",
+  email: "admin@azstructuralexperts.com",
+  hoursWeekday: "Monday – Thursday 7am to 5pm",
+  hoursFriday: "Friday 8am to 12pm",
+};
 
 export default function ContactPage() {
+  const [contact, setContact] = useState(defaultContact);
   const [formData, setFormData] = useState({
     fullName: "", company: "", email: "", phone: "",
     projectType: "", description: "",
   });
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const snap = await getDoc(doc(db, "settings", "contact"));
+        if (snap.exists()) setContact({ ...defaultContact, ...snap.data() });
+      } catch { /* use defaults */ }
+    };
+    fetch();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,10 +73,10 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-accent-500 text-[10px] font-bold uppercase tracking-[0.15em] mb-1">VISIT US</p>
-                  <p className="text-sm font-semibold underline" style={{ color: "var(--color-primary)" }}>South Jordan, Utah</p>
-                  <p className="text-steel-500 text-xs mt-1">Monday – Thursday 7am to 5pm</p>
-                  <p className="text-steel-500 text-xs">Friday 8am to 12pm</p>
-                  <a href="https://maps.google.com/?q=South+Jordan+Utah" target="_blank" rel="noopener noreferrer"
+                  <p className="text-sm font-semibold underline" style={{ color: "var(--color-primary)" }}>{contact.address}</p>
+                  <p className="text-steel-500 text-xs mt-1">{contact.hoursWeekday}</p>
+                  <p className="text-steel-500 text-xs">{contact.hoursFriday}</p>
+                  <a href={`https://maps.google.com/?q=${encodeURIComponent(contact.address)}`} target="_blank" rel="noopener noreferrer"
                     className="text-accent-500 text-xs font-semibold mt-1.5 inline-flex items-center gap-1 underline">
                     View in Maps
                   </a>
@@ -71,8 +92,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-accent-500 text-[10px] font-bold uppercase tracking-[0.15em] mb-1">PHONE SUPPORT</p>
-                  <a href="tel:6023131422" className="text-sm font-semibold hover:underline" style={{ color: "var(--color-primary)" }}>
-                    (602) 313-1422
+                  <a href={`tel:${contact.phone.replace(/\D/g, "")}`} className="text-sm font-semibold hover:underline" style={{ color: "var(--color-primary)" }}>
+                    {contact.phone}
                   </a>
                 </div>
               </div>
@@ -86,8 +107,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-accent-500 text-[10px] font-bold uppercase tracking-[0.15em] mb-1">EMAIL INQUIRIES</p>
-                  <a href="mailto:admin@azstructuralexperts.com" className="text-sm font-semibold hover:underline" style={{ color: "var(--color-primary)" }}>
-                    admin@azstructuralexperts.com
+                  <a href={`mailto:${contact.email}`} className="text-sm font-semibold hover:underline" style={{ color: "var(--color-primary)" }}>
+                    {contact.email}
                   </a>
                 </div>
               </div>
