@@ -7,7 +7,7 @@ const expertiseCards = [
   { icon: "wind", title: "Weather-Related Damage", desc: "Distinguishing between wind uplift, hail impact, and pre-existing wear following catastrophic meteorological events.", linkText: "CLIMATE CONTEXT" },
   { icon: "droplet", title: "Water Intrusion", desc: "Building envelope forensic testing to pinpoint moisture migration paths and latent mold causation factors.", linkText: "ENVELOPE STUDY" },
   { icon: "bolt", title: "Electrical/Mechanical", desc: "Evaluating interaction between system failures and structural damage, including fire causation and HVAC dynamics.", linkText: "SYSTEM DYNAMICS" },
-  { icon: "clipboard", title: "Project Management", desc: "Coordinating technical workstreams, document control, and stakeholder communication so complex forensic matters stay on schedule and on brief.", linkText: "PROJECT DELIVERY", highlighted: true },
+  { icon: "clipboard", title: "Project Management", desc: "Coordinating technical workstreams, document control, and stakeholder communication so complex forensic matters stay on schedule and on brief.", linkText: "PROJECT DELIVERY" },
   { icon: "doc", title: "Building Codes", desc: "Standard-of-care analysis and code compliance auditing for complex liability disputes and injury litigation.", linkText: "LEGAL STANDARD" },
 ];
 
@@ -60,7 +60,7 @@ export default function ExpertWitnessPage() {
               <p className="text-white/70 text-sm leading-relaxed mb-4">
                 Dedicated forensic reporting and expert testimony through Marcor Forensic Expert — case studies and engagement details on the forensic site.
               </p>
-              <a href="#" className="text-white text-sm font-semibold flex items-center gap-2 hover:text-accent-400 transition-colors">
+              <a href="https://marcorforensicexpert.com" target="_blank" rel="noopener noreferrer" className="text-white text-sm font-semibold flex items-center gap-2 hover:text-accent-400 transition-colors">
                 Visit Marcor Forensic Expert
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
               </a>
