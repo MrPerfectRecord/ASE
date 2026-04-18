@@ -89,17 +89,13 @@ export default function ExpertWitnessPage() {
               <div
                 key={card.title}
                 className="animate-on-scroll expertise-card"
-                style={card.highlighted ? { backgroundColor: "var(--color-primary)", borderColor: "var(--color-primary)" } : {}}
               >
-                <div
-                  className={`w-10 h-10 rounded-lg flex items-center justify-center mb-4 ${card.highlighted ? "" : "bg-accent-50 text-accent-500"}`}
-                  style={card.highlighted ? { backgroundColor: "rgba(255,255,255,0.1)", color: "white" } : {}}
-                >
+                <div className="expertise-icon w-10 h-10 rounded-lg flex items-center justify-center mb-4 bg-accent-50 text-accent-500">
                   {iconMap[card.icon] || iconMap.doc}
                 </div>
-                <h4 className={`font-bold mb-2 ${card.highlighted ? "" : "text-steel-800"}`} style={card.highlighted ? { color: "white" } : {}}>{card.title}</h4>
-                <p className={`text-sm leading-relaxed mb-4 ${card.highlighted ? "" : "text-steel-500"}`} style={card.highlighted ? { color: "rgba(255,255,255,0.8)" } : {}}>{card.desc}</p>
-                <span className={`text-xs font-bold tracking-[0.1em] uppercase ${card.highlighted ? "" : "text-accent-500"}`} style={card.highlighted ? { color: "rgba(255,255,255,0.7)" } : {}}>
+                <h4 className="expertise-title font-bold mb-2 text-steel-800">{card.title}</h4>
+                <p className="expertise-desc text-sm leading-relaxed mb-4 text-steel-500">{card.desc}</p>
+                <span className="expertise-link text-xs font-bold tracking-[0.1em] uppercase text-accent-500">
                   {card.linkText} &rarr;
                 </span>
               </div>
