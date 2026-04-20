@@ -77,18 +77,17 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/25 to-black/80" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16 pt-[7.5rem] w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-16 pt-[5rem] w-full">
           <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] text-white/85 mb-3">DESIGN-BUILD EXCELLENCE</p>
           <h1 className="font-display text-white leading-snug max-w-2xl mb-6 text-xl md:text-2xl lg:text-3xl font-medium">
             Arizona Structural Experts provides excellent service for Structural Design, Retrofit Design, Truss Analysis, and Expert Witness Consulting.
           </h1>
-          <div className="flex flex-wrap gap-4 mb-3">
+          <div className="flex flex-wrap gap-4">
             <Link href="/contact" className="btn-primary">
               Schedule Consultation
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </Link>
           </div>
-          <p className="text-sm font-normal leading-snug text-white/65">Free strategy call &middot; Straight answers, no boilerplate</p>
         </div>
         <div className="hero-bg-text">Arizona Structural Experts</div>
       </section>
