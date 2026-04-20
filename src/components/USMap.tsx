@@ -124,15 +124,17 @@ export default function USMap() {
 
         <div className="relative">
           <svg viewBox="0 0 960 600" className="w-full h-auto" style={{maxHeight:"440px"}}>
+            {/* Detailed base map — fills the viewBox, matching path coordinate space */}
+            <image href="/detailed-map.webp" x="0" y="0" width="960" height="600" preserveAspectRatio="xMidYMid meet" />
+            {/* Licensed state color overlays — unlicensed are transparent so the image shows through */}
             {Object.entries(S).map(([abbr, [d]]) => (
               <path
                 key={abbr}
                 d={d}
-                fill={fill(abbr)}
-                stroke="#f0f1f3"
-                strokeWidth="1.5"
-                strokeLinejoin="round"
-                className="transition-colors duration-200 cursor-pointer"
+                fill={lt(abbr) === "none" ? "transparent" : fill(abbr)}
+                fillOpacity={lt(abbr) === "none" ? 0 : 0.82}
+                stroke="none"
+                className="transition-all duration-200 cursor-pointer"
                 onMouseEnter={() => { if (lt(abbr)!=="none") setHovered(abbr); }}
                 onMouseLeave={() => setHovered(null)}
                 onClick={() => { if (lt(abbr)!=="none") setSelected(p=>p===abbr?null:abbr); }}
