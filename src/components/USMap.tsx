@@ -113,7 +113,7 @@ export default function USMap() {
 
   return (
     <div>
-      <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8 mb-4">
+      <div className="bg-gray-50 rounded-xl border border-gray-200 p-6 md:p-8 mb-4">
         <div className="flex justify-end mb-2">
           <div className="flex items-center gap-5 text-sm text-steel-600">
             <span className="flex items-center gap-2">PE only <span className="w-2.5 h-2.5 rounded-full" style={{background:"#c4703c"}} /></span>
@@ -124,15 +124,18 @@ export default function USMap() {
 
         <div className="relative">
           <svg viewBox="0 0 960 600" className="w-full h-auto" style={{maxHeight:"440px"}}>
+            {/* Detailed base map image */}
+            <image href="/detailed-map.webp" x="0" y="15" width="960" height="570" preserveAspectRatio="xMidYMid meet" />
+            {/* Interactive state overlays */}
             {Object.entries(S).map(([abbr, [d]]) => (
               <path
                 key={abbr}
                 d={d}
-                fill={fill(abbr)}
-                stroke={fill(abbr)}
-                strokeWidth="1"
-                strokeLinejoin="round"
-                className="transition-colors duration-200 cursor-pointer"
+                fill={lt(abbr) === "none" ? "transparent" : fill(abbr)}
+                fillOpacity={lt(abbr) === "none" ? 0 : 0.88}
+                stroke="transparent"
+                strokeWidth="0"
+                className="transition-all duration-200 cursor-pointer"
                 onMouseEnter={() => { if (lt(abbr)!=="none") setHovered(abbr); }}
                 onMouseLeave={() => setHovered(null)}
                 onClick={() => { if (lt(abbr)!=="none") setSelected(p=>p===abbr?null:abbr); }}
