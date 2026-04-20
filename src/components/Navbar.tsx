@@ -33,7 +33,7 @@ export default function Navbar() {
   const linkColor = !isTransparent ? "text-steel-600 hover:text-primary-500" : "text-white/90 hover:text-white";
   const linkActive = !isTransparent ? "text-primary-500 hover:text-primary-700" : "text-white hover:text-white";
   const ctaBorder = !isTransparent
-    ? "border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white"
+    ? "bg-primary-500 text-white hover:bg-primary-700"
     : "border border-white/80 text-white hover:bg-white/10 hover:border-white";
 
   return (
