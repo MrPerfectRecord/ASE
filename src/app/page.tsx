@@ -68,12 +68,15 @@ export default function HomePage() {
     <>
       {/* Hero Section */}
       <section className="relative min-h-[100vh] overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/home-hero.png"
-            alt="Arizona desert home with mountains"
-            className="w-full h-full object-cover"
-          />
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage: "url('/home-hero.png')",
+            backgroundAttachment: "fixed",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/25 to-black/80" />
         </div>
 
