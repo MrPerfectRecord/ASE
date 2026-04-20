@@ -67,7 +67,7 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative min-h-[95vh] flex items-end overflow-hidden">
+      <section className="relative h-[95vh] flex items-end overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="/home-hero.png"
