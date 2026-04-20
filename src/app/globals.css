@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Exo+2:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
   --color-primary: #33647e;
@@ -71,10 +71,11 @@ body {
 
 /* Hero background text */
 .hero-bg-text {
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(4rem, 10vw, 8rem);
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.06);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.18);
   white-space: nowrap;
   position: absolute;
   bottom: -0.1em;
