@@ -97,9 +97,11 @@ export default function ServicePageLayout({
                 </div>
                 <h4 className="expertise-title font-bold text-steel-800 mb-2">{card.title}</h4>
                 <p className="expertise-desc text-sm text-steel-500 leading-relaxed mb-4">{card.desc}</p>
-                <span className="expertise-link text-accent-500 text-xs font-bold tracking-[0.1em] uppercase">
-                  {card.linkText} &rarr;
-                </span>
+                {card.linkText && (
+                  <span className="expertise-link text-accent-500 text-xs font-bold tracking-[0.1em] uppercase">
+                    {card.linkText} &rarr;
+                  </span>
+                )}
               </div>
             ))}
           </div>

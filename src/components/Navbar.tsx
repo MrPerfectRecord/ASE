@@ -38,11 +38,6 @@ export default function Navbar() {
 
   return (
     <header className={`site-header ${!isTransparent ? "scrolled" : ""}`}>
-      {/* Announcement Bar */}
-      <div className="announcement-bar">
-        This site is currently in development.
-      </div>
-
       {/* Navbar */}
       <nav className="navbar">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">

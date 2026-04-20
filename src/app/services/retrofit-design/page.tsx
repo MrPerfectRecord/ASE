@@ -14,25 +14,25 @@ export default function RetrofitDesignPage() {
           icon: "layers",
           title: "Carbon Fiber Reinforcement on concrete and masonry structures",
           desc: "High-strength carbon fiber reinforced polymer (CFRP) systems applied to existing concrete and masonry elements to restore or increase load capacity — a minimally invasive solution that avoids costly demolition and reconstruction.",
-          linkText: "PLACEHOLDER",
+          linkText: "",
         },
         {
           icon: "grid",
           title: "Beam and column reinforcing",
           desc: "Structural strengthening of deteriorated or undersized beams and columns using steel jacketing, fiber wrapping, or supplemental framing — restoring full load-carrying capacity and extending the service life of existing structures.",
-          linkText: "PLACEHOLDER",
+          linkText: "",
         },
         {
           icon: "shield",
           title: "Fall Protection Design",
           desc: "Engineered anchorage systems, guardrails, and lifeline attachments designed to meet OSHA and local code requirements — providing compliant, structurally sound fall protection solutions for rooftops, elevated platforms, and construction environments.",
-          linkText: "PLACEHOLDER",
+          linkText: "",
         },
         {
           icon: "grid",
           title: "Post-Tensioned concrete slab reinforcement",
           desc: "Assessment and retrofit of post-tensioned concrete slabs to address tendon corrosion, anchorage failures, or insufficient capacity — preserving the structural integrity of parking structures, podium decks, and high-rise floor systems.",
-          linkText: "PLACEHOLDER",
+          linkText: "",
         },
       ]}
       ctaLabel="ENGINEERING SPECIALTY"

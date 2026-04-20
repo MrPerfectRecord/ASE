@@ -13,31 +13,31 @@ export default function StructuralDesignPage() {
           icon: "home",
           title: "High-end custom homes",
           desc: "Precision-engineered structural systems for luxury residential builds, from foundations to roof framing, ensuring every custom home meets the highest safety and performance standards.",
-          linkText: "PLACEHOLDER",
+          linkText: "",
         },
         {
           icon: "grid",
           title: "Steel shade canopies",
           desc: "Custom-designed steel canopy structures for commercial, residential, and recreational spaces — built to withstand local load requirements while delivering lasting aesthetic appeal.",
-          linkText: "PLACEHOLDER",
+          linkText: "",
         },
         {
           icon: "sun",
           title: "Solar panel supports",
           desc: "Engineered mounting and racking systems for rooftop and ground-mounted solar arrays, designed for structural integrity, optimal panel positioning, and long-term durability.",
-          linkText: "PLACEHOLDER",
+          linkText: "",
         },
         {
           icon: "building",
           title: "Residential buildings",
           desc: "Structural engineering for single-family homes, multi-family units, and townhomes — covering new construction, additions, renovations, and structural repairs to ensure safe, code-compliant results.",
-          linkText: "PLACEHOLDER",
+          linkText: "",
         },
         {
           icon: "building",
           title: "Commercial buildings",
           desc: "Comprehensive structural engineering solutions for offices, retail centers, warehouses, and mixed-use developments, designed to meet commercial load requirements and local building codes.",
-          linkText: "PLACEHOLDER",
+          linkText: "",
         },
       ]}
       ctaLabel="ENGINEERING SPECIALTY"
