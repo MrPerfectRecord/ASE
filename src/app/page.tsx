@@ -77,7 +77,7 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/25 to-black/80" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-20 pt-[5rem] w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pb-44 pt-[5rem] w-full">
           <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.18em] text-white/85 mb-3">DESIGN-BUILD EXCELLENCE</p>
           <h1 className="font-display text-white leading-snug max-w-2xl mb-6 text-xl md:text-2xl lg:text-3xl font-medium">
             Arizona Structural Experts provides excellent service for Structural Design, Retrofit Design, Truss Analysis, and Expert Witness Consulting.
