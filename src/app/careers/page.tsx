@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { db } from "@/lib/firebase";
-import { collection, getDocs, query, orderBy, where } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 interface Job {
   id: string;
@@ -15,6 +15,7 @@ interface Job {
 export default function CareersPage() {
   const [copied, setCopied] = useState(false);
   const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const handleCopy = () => {
     navigator.clipboard.writeText("admin@azstructuralexperts.com");
@@ -23,20 +24,23 @@ export default function CareersPage() {
   };
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchJobs = async () => {
       try {
-        const q = query(
-          collection(db, "careers"),
-          where("active", "==", true),
-          orderBy("order", "asc")
-        );
-        const snap = await getDocs(q);
-        setJobs(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Job)));
-      } catch {
-        // no active jobs or index not ready
+        // Fetch all and filter/sort client-side to avoid needing a
+        // Firestore composite index for (active ==, order asc).
+        const snap = await getDocs(collection(db, "careers"));
+        const all = snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<Job, "id">) }));
+        const active = all
+          .filter((j) => j.active)
+          .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+        setJobs(active);
+      } catch (err) {
+        console.error("Failed to load career listings:", err);
+      } finally {
+        setLoading(false);
       }
     };
-    fetch();
+    fetchJobs();
   }, []);
 
   return (
@@ -56,7 +60,11 @@ export default function CareersPage() {
         </div>
 
         {/* Open positions */}
-        {jobs.length > 0 && (
+        {loading ? (
+          <div className="pb-12 max-w-2xl">
+            <p className="text-steel-400 text-sm">Loading open positions…</p>
+          </div>
+        ) : jobs.length > 0 ? (
           <div id="qualifications" className="pb-12 max-w-2xl space-y-4">
             <h2 className="font-display text-xl font-semibold text-primary-500 mb-2">Open Positions</h2>
             {jobs.map((job) => (
@@ -65,7 +73,7 @@ export default function CareersPage() {
                 {job.description && (
                   <p className="text-steel-600 text-sm leading-relaxed mb-4">{job.description}</p>
                 )}
-                {job.qualifications.length > 0 && (
+                {job.qualifications && job.qualifications.length > 0 && (
                   <ul className="space-y-1.5">
                     {job.qualifications.map((q, i) => (
                       <li key={i} className="flex gap-2 text-sm text-steel-600">
@@ -78,7 +86,7 @@ export default function CareersPage() {
               </div>
             ))}
           </div>
-        )}
+        ) : null}
 
         {/* Cards */}
         <div className="pb-24 space-y-6 max-w-2xl">
