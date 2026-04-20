@@ -122,11 +122,17 @@ export default function USMap() {
           </div>
         </div>
 
-        <div className="relative">
-          <svg viewBox="0 0 960 600" className="w-full h-auto" style={{maxHeight:"440px"}}>
-            {/* Detailed base map — fills the viewBox, matching path coordinate space */}
-            <image href="/detailed-map.webp" x="0" y="0" width="960" height="600" preserveAspectRatio="xMidYMid meet" />
-            {/* Licensed state color overlays — unlicensed are transparent so the image shows through */}
+        <div className="relative" style={{aspectRatio:"960/600", maxHeight:"440px"}}>
+          {/* Base map image — fills the exact same space as the SVG */}
+          <img
+            src="/detailed-map.webp"
+            alt=""
+            aria-hidden
+            className="absolute inset-0 w-full h-full"
+            style={{objectFit:"fill"}}
+          />
+          <svg viewBox="0 0 960 600" className="absolute inset-0 w-full h-full">
+            {/* Licensed state color overlays — unlicensed are transparent so image shows through */}
             {Object.entries(S).map(([abbr, [d]]) => (
               <path
                 key={abbr}
