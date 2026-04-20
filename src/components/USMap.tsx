@@ -134,7 +134,7 @@ export default function USMap() {
   const tooltipName = tooltipState ? abbrToName[tooltipState] : null;
   const tooltipCenter = tooltipState && tooltipState !== "VI" ? displayCenter(tooltipState) : null;
 
-  const renderPath = (abbr: string, strokeW: number = 0.5) => {
+  const renderPath = (abbr: string) => {
     const entry = S[abbr];
     if (!entry) return null;
     const [d] = entry;
@@ -145,10 +145,7 @@ export default function USMap() {
         key={abbr}
         d={d}
         fill={fill(abbr)}
-        stroke="white"
-        strokeWidth={strokeW}
-        strokeLinejoin="round"
-        strokeLinecap="round"
+        stroke="none"
         className={isLicensed ? "transition-colors duration-200 cursor-pointer" : ""}
         style={isLicensed ? undefined : { pointerEvents: "none" }}
         onMouseEnter={isLicensed ? () => setHovered(abbr) : undefined}
@@ -175,15 +172,15 @@ export default function USMap() {
           <svg viewBox="0 0 220 125" className="w-full h-auto" style={{maxHeight:"440px", overflow:"hidden"}}>
             {/* Mainland (all states except AK, HI), translated so the content fills the viewBox */}
             <g transform={`translate(${MAINLAND_DX} ${MAINLAND_DY})`}>
-              {mainlandAbbrs.map(a => renderPath(a, 0.5))}
+              {mainlandAbbrs.map(a => renderPath(a))}
             </g>
             {/* Alaska inset, scaled down */}
             <g transform={`translate(${AK_DX} ${AK_DY}) scale(${AK_SCALE})`}>
-              {renderPath("AK", 2.2)}
+              {renderPath("AK")}
             </g>
             {/* Hawaii inset */}
             <g transform={`translate(${HI_DX} ${HI_DY})`}>
-              {renderPath("HI", 0.5)}
+              {renderPath("HI")}
             </g>
             {tooltipName && tooltipCenter && (
               <g style={{ pointerEvents: "none" }}>
