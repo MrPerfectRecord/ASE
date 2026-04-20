@@ -1,4 +1,5 @@
 "use client";
+import { useState, useCallback } from "react";
 
 const peOnlyAbbrs = ["AL","AR","CO","FL","KY","LA","NM","NC","OR","SC","TN","TX"];
 const seOnlyAbbrs = ["HI","IL","NE","NV"];
@@ -87,15 +88,73 @@ const S: Record<string,[string,number,number]> = {
 };
 
 export default function USMap() {
+  const [hovered, setHovered] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
+  const active = selected || hovered;
+
+  const fill = (a: string) => {
+    const t = lt(a);
+    return active === a ? C[t][1] : C[t][0];
+  };
+
+  const handleHoverName = useCallback((name: string) => {
+    setHovered(nameToAbbr[name] || null);
+  }, []);
+  const handleLeaveName = useCallback(() => setHovered(null), []);
+  const handleClickName = useCallback((name: string) => {
+    const a = nameToAbbr[name];
+    if (a) setSelected(prev => prev === a ? null : a);
+  }, []);
+  const isActive = (name: string) => nameToAbbr[name] === active;
+
+  const tooltipState = active && lt(active) !== "none" ? active : null;
+  const tooltipName = tooltipState ? abbrToName[tooltipState] : null;
+  const tooltipCenter = tooltipState && S[tooltipState] ? [S[tooltipState][1], S[tooltipState][2]] : null;
+
   return (
     <div>
       <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8 mb-4">
-        <iframe
-          src="/detailed-map.html"
-          className="w-full rounded-lg border-0"
-          style={{ height: "460px" }}
-          title="Licensed States Map"
-        />
+        <div className="flex justify-end mb-2">
+          <div className="flex items-center gap-5 text-sm text-steel-600">
+            <span className="flex items-center gap-2">PE only <span className="w-2.5 h-2.5 rounded-full" style={{background:"#c4703c"}} /></span>
+            <span className="flex items-center gap-2">SE only <span className="w-2.5 h-2.5 rounded-full" style={{background:"#3d6b6e"}} /></span>
+            <span className="flex items-center gap-2">PE &amp; SE <span className="w-2.5 h-2.5 rounded-full" style={{background:"#2d5254"}} /></span>
+          </div>
+        </div>
+
+        <div className="relative">
+          <svg viewBox="0 0 960 600" className="w-full h-auto" style={{maxHeight:"440px"}}>
+            {Object.entries(S).map(([abbr, [d]]) => (
+              <path
+                key={abbr}
+                d={d}
+                fill={fill(abbr)}
+                stroke={fill(abbr)}
+                strokeWidth="1"
+                strokeLinejoin="round"
+                className="transition-colors duration-200 cursor-pointer"
+                onMouseEnter={() => { if (lt(abbr)!=="none") setHovered(abbr); }}
+                onMouseLeave={() => setHovered(null)}
+                onClick={() => { if (lt(abbr)!=="none") setSelected(p=>p===abbr?null:abbr); }}
+              />
+            ))}
+            {tooltipName && tooltipCenter && tooltipState !== "VI" && (
+              <g>
+                <rect x={tooltipCenter[0] - tooltipName.length * 3.8} y={tooltipCenter[1] - 26} width={Math.max(tooltipName.length * 7.5, 50)} height="22" rx="4" fill="white" stroke="#c4c0ba" strokeWidth="1" />
+                <text x={tooltipCenter[0]} y={tooltipCenter[1] - 11} textAnchor="middle" fontSize="11" fontWeight="500" fill="#37302f" fontFamily="Inter,system-ui,sans-serif">{tooltipName}</text>
+              </g>
+            )}
+          </svg>
+          <div
+            className={`absolute bottom-4 right-4 rounded-lg px-3 py-2 text-xs cursor-pointer transition-colors border ${active==="VI"?"bg-primary-700 text-white border-primary-700":"bg-primary-600 text-white border-primary-600 hover:bg-primary-700"}`}
+            onMouseEnter={() => setHovered("VI")}
+            onMouseLeave={() => setHovered(null)}
+            onClick={() => setSelected(p=>p==="VI"?null:"VI")}
+          >
+            <div className="font-bold">USVI</div>
+            <div className="text-white/70 text-[10px]">Near Puerto Rico</div>
+          </div>
+        </div>
         <p className="text-steel-500 text-xs mt-3">Illustration of U.S. states with professional registration; the jurisdiction list is the authoritative record.</p>
       </div>
 
@@ -116,10 +175,13 @@ export default function USMap() {
               </div>
               <div className="grid grid-cols-2 gap-2">
                 {names.map(name => (
-                  <div
+                  <button
                     key={name}
-                    className="text-left text-sm py-2 px-3 rounded-md border text-steel-600 border-gray-200"
-                  >{name}</div>
+                    className={`text-left text-sm py-2 px-3 rounded-md border transition-all cursor-pointer ${isActive(name)?"bg-primary-500 text-white border-primary-500":"text-steel-600 border-gray-200 hover:border-primary-300 hover:bg-primary-50"}`}
+                    onMouseEnter={() => handleHoverName(name)}
+                    onMouseLeave={handleLeaveName}
+                    onClick={() => handleClickName(name)}
+                  >{name}</button>
                 ))}
               </div>
             </div>
