@@ -9,6 +9,7 @@ import { doc, getDoc } from "firebase/firestore";
 const navItems = [
   { href: "/admin/team", label: "Team Members" },
   { href: "/admin/careers", label: "Careers" },
+  { href: "/admin/jurisdictions", label: "Licensed Jurisdictions" },
   { href: "/admin/contact", label: "Contact Info" },
   { href: "/admin/users", label: "Admin Users" },
 ];

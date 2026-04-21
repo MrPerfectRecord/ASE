@@ -1,32 +1,32 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
-const peOnlyAbbrs = ["AL","AR","CO","FL","KY","LA","NM","NC","OR","SC","TN","TX"];
-const seOnlyAbbrs = ["HI","IL","NE","NV"];
-const peSeAbbrs = ["AZ","CA","UT","DC"];
+// Defaults — used as fallback when Firestore doc hasn't been written yet
+// or the fetch fails. Editable from /admin/jurisdictions.
+const DEFAULT_PE = ["AL","AR","CO","FL","KY","LA","NM","NC","OR","SC","TN","TX","VI"];
+const DEFAULT_SE = ["HI","IL","NE","NV"];
+const DEFAULT_PESE = ["AZ","CA","UT","DC"];
 
-const peOnlyNames = ["Alabama","Arkansas","Colorado","Florida","Kentucky","Louisiana","New Mexico","North Carolina","Oregon","South Carolina","Tennessee","Texas","US Virgin Islands"];
-const seOnlyNames = ["Hawaii","Illinois","Nebraska","Nevada"];
-const peSeNames = ["Arizona","California","Utah","Washington DC"];
-
-const nameToAbbr: Record<string,string> = {
-  Alabama:"AL",Arkansas:"AR",Colorado:"CO",Florida:"FL",Kentucky:"KY",
-  Louisiana:"LA","New Mexico":"NM","North Carolina":"NC",Oregon:"OR",
-  "South Carolina":"SC",Tennessee:"TN",Texas:"TX","US Virgin Islands":"VI",
-  Hawaii:"HI",Illinois:"IL",Nebraska:"NE",Nevada:"NV",
-  Arizona:"AZ",California:"CA",Utah:"UT","Washington DC":"DC",
+// Full name lookup so any jurisdiction can be toggled licensed from the admin.
+const abbrToName: Record<string,string> = {
+  AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",
+  CT:"Connecticut",DE:"Delaware",DC:"Washington DC",FL:"Florida",GA:"Georgia",
+  HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",
+  KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",
+  MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",
+  NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",
+  NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",
+  OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",
+  SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",
+  VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",
+  WY:"Wyoming",VI:"US Virgin Islands",
 };
-const abbrToName: Record<string,string> = {};
-Object.entries(nameToAbbr).forEach(([n,a]) => { abbrToName[a] = n; });
+const nameToAbbr: Record<string,string> = {};
+Object.entries(abbrToName).forEach(([a,n]) => { nameToAbbr[n] = a; });
 
 type LT = "pe"|"se"|"pese"|"none";
-function lt(a: string): LT {
-  if (peSeAbbrs.includes(a)) return "pese";
-  if (peOnlyAbbrs.includes(a)) return "pe";
-  if (seOnlyAbbrs.includes(a)) return "se";
-  if (a === "VI") return "pe";
-  return "none";
-}
 
 const C: Record<LT, [string,string]> = {
   pe: ["#3d6b6e","#2d5254"], se: ["#c4703c","#9a5228"],
@@ -113,7 +113,41 @@ function displayCenter(abbr: string): [number, number] | null {
 export default function USMap() {
   const [hovered, setHovered] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
+  const [peOnlyAbbrs, setPeOnlyAbbrs] = useState<string[]>(DEFAULT_PE);
+  const [seOnlyAbbrs, setSeOnlyAbbrs] = useState<string[]>(DEFAULT_SE);
+  const [peSeAbbrs, setPeSeAbbrs] = useState<string[]>(DEFAULT_PESE);
+
+  // Load licensed-jurisdiction config from Firestore (editable at /admin/jurisdictions).
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const snap = await getDoc(doc(db, "settings", "jurisdictions"));
+        if (snap.exists()) {
+          const d = snap.data() as { peOnly?: string[]; seOnly?: string[]; peSe?: string[] };
+          if (Array.isArray(d.peOnly)) setPeOnlyAbbrs(d.peOnly);
+          if (Array.isArray(d.seOnly)) setSeOnlyAbbrs(d.seOnly);
+          if (Array.isArray(d.peSe)) setPeSeAbbrs(d.peSe);
+        }
+      } catch (err) {
+        console.error("Failed to load jurisdictions config:", err);
+      }
+    };
+    load();
+  }, []);
+
   const active = selected || hovered;
+
+  const lt = (a: string): LT => {
+    if (peSeAbbrs.includes(a)) return "pese";
+    if (peOnlyAbbrs.includes(a)) return "pe";
+    if (seOnlyAbbrs.includes(a)) return "se";
+    return "none";
+  };
+
+  // Names for the three-column jurisdiction list, derived from the live arrays.
+  const peOnlyNames = peOnlyAbbrs.map(a => abbrToName[a]).filter(Boolean);
+  const seOnlyNames = seOnlyAbbrs.map(a => abbrToName[a]).filter(Boolean);
+  const peSeNames = peSeAbbrs.map(a => abbrToName[a]).filter(Boolean);
 
   const fill = (a: string) => {
     const t = lt(a);
@@ -189,15 +223,17 @@ export default function USMap() {
               </g>
             )}
           </svg>
-          <div
-            className={`absolute bottom-4 right-4 rounded-lg px-3 py-2 text-xs cursor-pointer transition-colors border ${active==="VI"?"bg-primary-700 text-white border-primary-700":"bg-primary-600 text-white border-primary-600 hover:bg-primary-700"}`}
-            onMouseEnter={() => setHovered("VI")}
-            onMouseLeave={() => setHovered(null)}
-            onClick={() => setSelected(p=>p==="VI"?null:"VI")}
-          >
-            <div className="font-bold">USVI</div>
-            <div className="text-white/70 text-[10px]">Near Puerto Rico</div>
-          </div>
+          {lt("VI") !== "none" && (
+            <div
+              className={`absolute bottom-4 right-4 rounded-lg px-3 py-2 text-xs cursor-pointer transition-colors border ${active==="VI"?"bg-primary-700 text-white border-primary-700":"bg-primary-600 text-white border-primary-600 hover:bg-primary-700"}`}
+              onMouseEnter={() => setHovered("VI")}
+              onMouseLeave={() => setHovered(null)}
+              onClick={() => setSelected(p=>p==="VI"?null:"VI")}
+            >
+              <div className="font-bold">USVI</div>
+              <div className="text-white/70 text-[10px]">Near Puerto Rico</div>
+            </div>
+          )}
         </div>
         <p className="text-steel-500 text-xs mt-3">Illustration of U.S. states with professional registration; the jurisdiction list is the authoritative record.</p>
       </div>
@@ -211,7 +247,7 @@ export default function USMap() {
             { title: "PE ONLY", names: peOnlyNames, badge: "bg-primary-500" },
             { title: "SE ONLY", names: seOnlyNames, badge: "bg-accent-500" },
             { title: "PE & SE", names: peSeNames, badge: "bg-steel-700" },
-          ].map(({ title, names, badge }) => (
+          ].filter(c => c.names.length > 0).map(({ title, names, badge }) => (
             <div key={title}>
               <div className="flex items-center justify-between mb-4">
                 <h4 className="text-sm font-bold text-accent-500 tracking-wide">{title}</h4>
