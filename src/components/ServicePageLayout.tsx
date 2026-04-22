@@ -1,5 +1,6 @@
 import Link from "next/link";
 import FooterCTA from "./FooterCTA";
+import PhoneCTA from "./PhoneCTA";
 
 interface ExpertiseCard {
   icon: string;
@@ -20,7 +21,6 @@ interface ServicePageLayoutProps {
   ctaHeading: string;
   ctaButtonText: string;
   primaryCTA?: string;
-  phoneCTA?: string;
 }
 
 const iconMap: Record<string, JSX.Element> = {
@@ -46,7 +46,6 @@ export default function ServicePageLayout({
   label, title, description, heroImage, blockquote, blockquoteSubtitle,
   expertise, ctaLabel, ctaHeading, ctaButtonText,
   primaryCTA = "Start a project inquiry",
-  phoneCTA = "Call (480) 202-6529",
 }: ServicePageLayoutProps) {
   return (
     <>
@@ -65,7 +64,7 @@ export default function ServicePageLayout({
               {primaryCTA}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
             </Link>
-            <a href="tel:4802026529" className="btn-outline">{phoneCTA}</a>
+            <PhoneCTA />
           </div>
         </div>
       </section>
