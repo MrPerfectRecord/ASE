@@ -179,7 +179,9 @@ export default function USMap() {
         key={abbr}
         d={d}
         fill={fill(abbr)}
-        stroke="none"
+        stroke="#9a9590"
+        strokeWidth="0.3"
+        vectorEffect="non-scaling-stroke"
         className={isLicensed ? "transition-colors duration-200 cursor-pointer" : ""}
         style={isLicensed ? undefined : { pointerEvents: "none" }}
         onMouseEnter={isLicensed ? () => setHovered(abbr) : undefined}
