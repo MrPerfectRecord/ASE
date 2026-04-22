@@ -14,8 +14,10 @@ interface PhoneCTAProps {
 
 /**
  * Renders a phone link (<a href="tel:...">Call (xxx) xxx-xxxx</a>) driven by the
- * phone number stored in the Firestore settings/contact document, which can be
- * edited from /admin/contact. Falls back to DEFAULT_PHONE if not loaded yet.
+ * Firestore settings/contact document (editable at /admin/contact).
+ *
+ * Prefers `servicePhone` (the dedicated service-page number); falls back to
+ * `phone` if servicePhone is not set, and then to DEFAULT_PHONE.
  */
 export default function PhoneCTA({
   className = "btn-outline",
@@ -28,8 +30,12 @@ export default function PhoneCTA({
       try {
         const snap = await getDoc(doc(db, "settings", "contact"));
         if (snap.exists()) {
-          const p = (snap.data() as { phone?: string }).phone;
-          if (typeof p === "string" && p.trim()) setPhone(p.trim());
+          const data = snap.data() as { phone?: string; servicePhone?: string };
+          const picked =
+            (typeof data.servicePhone === "string" && data.servicePhone.trim()) ||
+            (typeof data.phone === "string" && data.phone.trim()) ||
+            "";
+          if (picked) setPhone(picked);
         }
       } catch (err) {
         console.error("Failed to load contact phone:", err);

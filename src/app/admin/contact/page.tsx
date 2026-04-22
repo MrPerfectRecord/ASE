@@ -6,6 +6,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 interface ContactInfo {
   address: string;
   phone: string;
+  servicePhone: string;
   email: string;
   hoursWeekday: string;
   hoursFriday: string;
@@ -14,6 +15,7 @@ interface ContactInfo {
 const defaults: ContactInfo = {
   address: "South Jordan, Utah",
   phone: "(602) 313-1422",
+  servicePhone: "(480) 202-6529",
   email: "admin@azstructuralexperts.com",
   hoursWeekday: "Monday – Thursday 7am to 5pm",
   hoursFriday: "Friday 8am to 12pm",
@@ -96,13 +98,30 @@ export default function AdminContactPage() {
         </div>
 
         <div>
-          <label className="form-label">Phone Support</label>
+          <label className="form-label">Contact Page Phone</label>
           <input
             className="form-input"
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
             placeholder="e.g. (602) 313-1422"
           />
+          <p className="text-xs text-steel-400 mt-1">
+            Shown in the Phone Support block on the public Contact page.
+          </p>
+        </div>
+
+        <div>
+          <label className="form-label">Service Page Phone</label>
+          <input
+            className="form-input"
+            value={form.servicePhone}
+            onChange={(e) => setForm({ ...form, servicePhone: e.target.value })}
+            placeholder="e.g. (480) 202-6529"
+          />
+          <p className="text-xs text-steel-400 mt-1">
+            Shown in the &quot;Call …&quot; button on every service page hero (Retrofit,
+            Truss, Structural, Expert Witness).
+          </p>
         </div>
 
         <div>
