@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 
@@ -20,10 +20,9 @@ const fallback: TeamMember[] = [
 
 export default function TeamSection() {
   const [members, setMembers] = useState<TeamMember[]>(fallback);
-  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchTeam = async () => {
       try {
         const q = query(collection(db, "team"), orderBy("order", "asc"));
         const snap = await getDocs(q);
@@ -32,54 +31,91 @@ export default function TeamSection() {
       } catch {
         // fallback already set
       }
-      setLoaded(true);
     };
-    fetch();
+    fetchTeam();
   }, []);
 
   return (
-    <section id="team" className="bg-section-a py-20">
+    <section id="team" className="bg-section-a py-20 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-12 flex flex-col items-end justify-between gap-8 md:flex-row">
-          <div className="max-w-xl">
-            <span className="mb-4 block text-xs font-semibold tracking-widest text-accent-500 uppercase">
-              The Experts
-            </span>
-            <h2 className="font-display text-3xl font-semibold text-primary-500 md:text-4xl">
-              The Core Engineering Team
-            </h2>
-            <div className="mt-3 h-1 w-1/3 max-w-[7.5rem] bg-accent-500" />
-          </div>
-          <p className="max-w-sm border-l-2 border-primary-500 pl-6 italic text-steel-600">
-            Structural engineers and specialists focused on code-aligned design, practical solutions,
-            and clear communication.
+        {/* Centered header — Lumexa-style */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary-500 mb-4">
+            <span className="text-accent-500 mr-1.5">//</span> the experts
           </p>
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] text-primary-500">
+            The Core Engineering Team
+          </h2>
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {members.map((member) => (
-            <article key={member.id} className="flex flex-col">
-              <div className="relative w-full overflow-visible">
-                <div className="overflow-hidden rounded" style={{ aspectRatio: "9/10" }}>
-                  <img
-                    src={member.photoUrl || "/team/team-silhouette-placeholder.svg"}
-                    alt={member.name}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-                <div className="relative z-10 mx-auto -mt-8 w-[88%] max-w-[280px] bg-white px-6 py-5 text-center shadow-[0_4px_20px_rgba(47,47,47,0.10)]">
-                  <h3 className="font-display text-base font-semibold leading-snug text-steel-800">
-                    {member.name}
-                  </h3>
-                  <p className="mt-1.5 text-sm font-normal leading-snug text-steel-500">
-                    {member.role}
-                  </p>
-                </div>
-              </div>
-            </article>
+        {/* Animated card grid */}
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {members.map((member, i) => (
+            <TeamCard key={member.id} member={member} index={i} />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * Single team card with the Lumexa entrance animation:
+ *   - Initial state: translateY(30%) + blur(10px) + opacity:0
+ *   - On scroll into view: translateY(0) + blur(0) + opacity:1
+ *   - Stagger delay per index so cards reveal in sequence
+ */
+function TeamCard({ member, index }: { member: TeamMember; index: number }) {
+  const ref = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    // Respect prefers-reduced-motion — skip animation entirely.
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setVisible(true);
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          // Stagger reveal — each card waits 120ms longer than the previous
+          const delay = index * 120;
+          window.setTimeout(() => setVisible(true), delay);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -10% 0px" }
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, [index]);
+
+  return (
+    <article
+      ref={ref}
+      className="flex flex-col will-change-transform"
+      style={{
+        opacity: visible ? 1 : 0,
+        filter: visible ? "blur(0)" : "blur(10px)",
+        transform: visible ? "translate3d(0, 0, 0)" : "translate3d(0, 30%, 0)",
+        transition: "opacity 0.8s ease-out, filter 0.8s ease-out, transform 0.8s ease-out",
+      }}
+    >
+      <div className="aspect-[4/5] overflow-hidden rounded-lg mb-5 bg-steel-100">
+        <img
+          src={member.photoUrl || "/team/team-silhouette-placeholder.svg"}
+          alt={member.name}
+          className="w-full h-full object-cover object-top"
+        />
+      </div>
+      <h3 className="font-display text-lg md:text-xl font-semibold text-steel-800 leading-tight">
+        {member.name}
+      </h3>
+      <p className="text-sm text-steel-500 mt-1.5">{member.role}</p>
+    </article>
   );
 }

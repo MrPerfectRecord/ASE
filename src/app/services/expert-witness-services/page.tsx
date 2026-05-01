@@ -1,6 +1,8 @@
 import Link from "next/link";
 import FooterCTA from "@/components/FooterCTA";
 import PhoneCTA from "@/components/PhoneCTA";
+import RevealText from "@/components/RevealText";
+import EditablePhoto from "@/components/EditablePhoto";
 
 const expertiseCards = [
   { icon: "filter", title: "Flood Modeling", desc: "Advanced hydrodynamic simulations to determine water velocity, depth, and hydrostatic pressure impact on foundations.", linkText: "TECHNICAL ANALYSIS" },
@@ -25,47 +27,64 @@ const iconMap: Record<string, JSX.Element> = {
 export default function ExpertWitnessPage() {
   return (
     <>
-      {/* Hero */}
+      {/* Hero — centered, dark overlay */}
       <section className="service-hero">
         <div className="absolute inset-0 z-0">
-          <img src="/images/expert-witness.jpg" alt="Expert Witness" className="w-full h-full object-cover object-center" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/20" />
+          <EditablePhoto slot="serviceExpertWitness" alt="Expert Witness" className="w-full h-full object-cover object-center" />
+          <div className="absolute inset-0 bg-black/65" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full" style={{ paddingTop: "9rem", paddingBottom: "8rem" }}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="section-label text-white/70 mb-3">EXPERT WITNESS &amp; TESTIMONY</p>
-              <h1 className="text-white text-4xl md:text-5xl font-bold mb-4">Expert Witness &amp; Testimony</h1>
-              <p className="text-white/80 text-base leading-relaxed max-w-lg mb-8">
-                When structure becomes a source of dispute, we bring clarity and credibility to the courtroom.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/contact" className="btn-primary">
-                  Request expert intake
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-                </Link>
-                <PhoneCTA />
+        <div
+          className="relative z-10 max-w-5xl mx-auto px-6 w-full text-center"
+          style={{ paddingTop: "9rem", paddingBottom: "8rem" }}
+        >
+          <p className="section-label text-white/80 mb-4">EXPERT WITNESS &amp; TESTIMONY</p>
+          <h1 className="text-white font-bold leading-[1.05] mb-6 text-5xl md:text-6xl lg:text-7xl">
+            <RevealText text="Expert Witness & Testimony" delay={150} stagger={28} duration={900} />
+          </h1>
+          <p className="text-white/85 text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-9">
+            <RevealText
+              text="When structure becomes a source of dispute, we bring clarity and credibility to the courtroom."
+              splitBy="word"
+              delay={800}
+              stagger={55}
+              duration={700}
+            />
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link href="/contact" className="btn-primary">
+              Request expert intake
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </Link>
+            <PhoneCTA />
+          </div>
+        </div>
+      </section>
+
+      {/* Strategic Partnership — moved out of hero into its own section */}
+      <section className="bg-section-a py-16">
+        <div className="max-w-3xl mx-auto px-6">
+          <div className="bg-white border border-steel-200/40 rounded-xl p-6 md:p-8 shadow-sm">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-9 h-9 bg-accent-500 rounded-full flex items-center justify-center shrink-0">
+                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+              </div>
+              <div>
+                <p className="text-accent-500 text-[10px] font-bold tracking-[0.12em] uppercase">STRATEGIC PARTNERSHIP</p>
+                <p className="text-steel-800 font-bold text-base">Marcor Forensic Expert</p>
               </div>
             </div>
-            {/* Strategic Partnership Card */}
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-8 h-8 bg-accent-500 rounded-full flex items-center justify-center">
-                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-                </div>
-                <div>
-                  <p className="text-white/60 text-[10px] font-bold tracking-[0.1em] uppercase">STRATEGIC PARTNERSHIP</p>
-                  <p className="text-white font-bold text-sm">Marcor Forensic Expert</p>
-                </div>
-              </div>
-              <p className="text-white/70 text-sm leading-relaxed mb-4">
-                Dedicated forensic reporting and expert testimony through Marcor Forensic Expert — case studies and engagement details on the forensic site.
-              </p>
-              <a href="https://marcorforensicexpert.com" target="_blank" rel="noopener noreferrer" className="text-white text-sm font-semibold flex items-center gap-2 hover:text-accent-400 transition-colors">
-                Visit Marcor Forensic Expert
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-              </a>
-            </div>
+            <p className="text-steel-600 text-sm md:text-base leading-relaxed mb-5">
+              Dedicated forensic reporting and expert testimony through Marcor Forensic Expert — case studies and engagement details on the forensic site.
+            </p>
+            <a
+              href="https://marcorforensicexpert.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary-500 hover:text-primary-600 text-sm font-semibold inline-flex items-center gap-2 transition-colors"
+            >
+              Visit Marcor Forensic Expert
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+            </a>
           </div>
         </div>
       </section>

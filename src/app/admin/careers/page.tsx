@@ -11,11 +11,22 @@ interface Job {
   title: string;
   description: string;
   qualifications: string[];
+  category?: string;
+  location?: string;
+  employmentType?: string;
   active: boolean;
   order: number;
 }
 
-const emptyForm = { title: "", description: "", qualifications: [""], active: true };
+const emptyForm = {
+  title: "",
+  description: "",
+  qualifications: [""],
+  category: "",
+  location: "",
+  employmentType: "Full-time",
+  active: true,
+};
 
 export default function AdminCareersPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -53,6 +64,9 @@ export default function AdminCareersPage() {
       title: j.title,
       description: j.description,
       qualifications: j.qualifications.length ? j.qualifications : [""],
+      category: j.category ?? "",
+      location: j.location ?? "",
+      employmentType: j.employmentType ?? "Full-time",
       active: j.active,
     });
     setShowForm(true);
@@ -80,6 +94,9 @@ export default function AdminCareersPage() {
       title: form.title.trim(),
       description: form.description.trim(),
       qualifications: quals,
+      category: form.category.trim(),
+      location: form.location.trim(),
+      employmentType: form.employmentType.trim(),
       active: form.active,
     };
     if (editId) {
@@ -148,6 +165,52 @@ export default function AdminCareersPage() {
                 onChange={(e) => setForm({ ...form, description: e.target.value })}
                 placeholder="Describe the role, responsibilities, and what you're looking for."
               />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div>
+                <label className="form-label">Category</label>
+                <input
+                  className="form-input"
+                  value={form.category}
+                  onChange={(e) => setForm({ ...form, category: e.target.value })}
+                  placeholder="e.g. Engineering"
+                />
+                <p className="text-xs text-steel-400 mt-1">
+                  Used as a filter pill on the public Careers page.
+                </p>
+              </div>
+              <div>
+                <label className="form-label">Location</label>
+                <input
+                  className="form-input"
+                  value={form.location}
+                  onChange={(e) => setForm({ ...form, location: e.target.value })}
+                  placeholder="e.g. Phoenix, AZ"
+                />
+                <p className="text-xs text-steel-400 mt-1">
+                  Shown as a tag pill on the role card.
+                </p>
+              </div>
+              <div>
+                <label className="form-label">Employment Type</label>
+                <select
+                  className="form-input"
+                  value={form.employmentType}
+                  onChange={(e) =>
+                    setForm({ ...form, employmentType: e.target.value })
+                  }
+                >
+                  <option value="">— None —</option>
+                  <option value="Full-time">Full-time</option>
+                  <option value="Part-time">Part-time</option>
+                  <option value="Contract">Contract</option>
+                  <option value="Internship">Internship</option>
+                </select>
+                <p className="text-xs text-steel-400 mt-1">
+                  Shown next to the location.
+                </p>
+              </div>
             </div>
 
             <div>

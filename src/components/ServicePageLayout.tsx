@@ -1,6 +1,9 @@
 import Link from "next/link";
 import FooterCTA from "./FooterCTA";
 import PhoneCTA from "./PhoneCTA";
+import RevealText from "./RevealText";
+import EditablePhoto from "./EditablePhoto";
+import type { PhotosConfig } from "@/lib/photos";
 
 interface ExpertiseCard {
   icon: string;
@@ -13,7 +16,8 @@ interface ServicePageLayoutProps {
   label: string;
   title: string;
   description: string;
-  heroImage: string;
+  /** Slot key for the hero image; editable from /admin/dev. */
+  heroSlot: keyof PhotosConfig;
   blockquote: string;
   blockquoteSubtitle?: string;
   expertise: ExpertiseCard[];
@@ -43,23 +47,40 @@ const iconMap: Record<string, JSX.Element> = {
 };
 
 export default function ServicePageLayout({
-  label, title, description, heroImage, blockquote, blockquoteSubtitle,
+  label, title, description, heroSlot, blockquote, blockquoteSubtitle,
   expertise, ctaLabel, ctaHeading, ctaButtonText,
   primaryCTA = "Start a project inquiry",
 }: ServicePageLayoutProps) {
   return (
     <>
-      {/* Hero */}
+      {/* Hero — full-bleed image, dark overlay, centered text */}
       <section className="service-hero">
         <div className="absolute inset-0 z-0">
-          <img src={heroImage} alt={title} className="w-full h-full object-cover object-center" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/20" />
+          <EditablePhoto
+            slot={heroSlot}
+            alt={title}
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-black/65" />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full" style={{ paddingTop: "9rem", paddingBottom: "8rem" }}>
-          <p className="section-label text-white/70 mb-3">{label}</p>
-          <h1 className="text-white text-4xl md:text-5xl font-bold mb-4">{title}</h1>
-          <p className="text-white/80 text-base leading-relaxed max-w-lg mb-8">{description}</p>
-          <div className="flex flex-wrap gap-4">
+        <div
+          className="relative z-10 max-w-5xl mx-auto px-6 w-full text-center"
+          style={{ paddingTop: "9rem", paddingBottom: "8rem" }}
+        >
+          <p className="section-label text-white/80 mb-4">{label}</p>
+          <h1 className="text-white font-bold leading-[1.05] mb-6 text-5xl md:text-6xl lg:text-7xl">
+            <RevealText text={title} delay={150} stagger={28} duration={900} />
+          </h1>
+          <p className="text-white/85 text-base md:text-lg leading-relaxed max-w-2xl mx-auto mb-9">
+            <RevealText
+              text={description}
+              splitBy="word"
+              delay={800}
+              stagger={55}
+              duration={700}
+            />
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/contact" className="btn-primary">
               {primaryCTA}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>

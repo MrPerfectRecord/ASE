@@ -6,7 +6,7 @@ export default function StructuralDesignPage() {
       label="ENGINEERING SPECIALTY"
       title="Structural Design"
       description="From custom homes to solar arrays, our structural design team brings creativity and technical excellence to every project."
-      heroImage="/images/structural-design.jpg"
+      heroSlot="serviceStructural"
       blockquote="We specialize in high-end residential structures, steel shade canopies, solar panel supports, and foundation systems. Our designs balance form and function, delivering safe, efficient, and visually striking structures that stand the test of time."
       expertise={[
         {

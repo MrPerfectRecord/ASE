@@ -195,26 +195,16 @@ export default function USMap() {
 
   return (
     <div>
-      <div className="bg-gray-100 rounded-xl p-6 md:p-8 mb-4">
-        <div className="flex justify-end mb-2">
-          <div className="flex items-center gap-5 text-sm text-steel-600">
-            <span className="flex items-center gap-2">PE only <span className="w-2.5 h-2.5 rounded-full" style={{background:"#3d6b6e"}} /></span>
-            <span className="flex items-center gap-2">SE only <span className="w-2.5 h-2.5 rounded-full" style={{background:"#c4703c"}} /></span>
-            <span className="flex items-center gap-2">PE &amp; SE <span className="w-2.5 h-2.5 rounded-full" style={{background:"#2d5254"}} /></span>
-          </div>
-        </div>
-
+      {/* ── Map ── */}
+      <div className="bg-gray-50 rounded-xl p-4 md:p-5 mb-6 border border-gray-200">
         <div className="relative">
           <svg viewBox="0 0 220 125" className="w-full h-auto" style={{maxHeight:"440px", overflow:"hidden"}}>
-            {/* Mainland (all states except AK, HI), translated so the content fills the viewBox */}
             <g transform={`translate(${MAINLAND_DX} ${MAINLAND_DY})`}>
               {mainlandAbbrs.map(a => renderPath(a))}
             </g>
-            {/* Alaska inset, scaled down */}
             <g transform={`translate(${AK_DX} ${AK_DY}) scale(${AK_SCALE})`}>
               {renderPath("AK")}
             </g>
-            {/* Hawaii inset */}
             <g transform={`translate(${HI_DX} ${HI_DY})`}>
               {renderPath("HI")}
             </g>
@@ -225,45 +215,94 @@ export default function USMap() {
               </g>
             )}
           </svg>
+
+          {/* Legend — overlaid bottom-right */}
+          <div className="absolute bottom-3 right-3 bg-white border border-gray-200 rounded-lg px-3 py-2.5 flex flex-col gap-1.5 shadow-sm">
+            <span className="flex items-center gap-2 text-xs text-steel-600 whitespace-nowrap">
+              <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{background:"#3d6b6e"}} />PE only
+            </span>
+            <span className="flex items-center gap-2 text-xs text-steel-600 whitespace-nowrap">
+              <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{background:"#c4703c"}} />SE only
+            </span>
+            <span className="flex items-center gap-2 text-xs text-steel-600 whitespace-nowrap">
+              <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{background:"#2d5254"}} />PE &amp; SE
+            </span>
+          </div>
+
+          {/* USVI badge — bottom-left */}
           {lt("VI") !== "none" && (
             <div
-              className={`absolute bottom-4 right-4 rounded-lg px-3 py-2 text-xs cursor-pointer transition-colors border ${active==="VI"?"bg-primary-700 text-white border-primary-700":"bg-primary-600 text-white border-primary-600 hover:bg-primary-700"}`}
+              className={`absolute bottom-3 left-3 rounded-lg px-3 py-2 text-xs cursor-pointer transition-colors ${active==="VI"?"bg-primary-700 text-white":"bg-primary-600 text-white hover:bg-primary-700"}`}
               onMouseEnter={() => setHovered("VI")}
               onMouseLeave={() => setHovered(null)}
-              onClick={() => setSelected(p=>p==="VI"?null:"VI")}
+              onClick={() => setSelected(p => p==="VI" ? null : "VI")}
             >
-              <div className="font-bold">USVI</div>
-              <div className="text-white/70 text-[10px]">Near Puerto Rico</div>
+              <div className="font-semibold leading-tight">USVI</div>
+              <div className="text-white/65 text-[10px] leading-tight">Near Puerto Rico</div>
             </div>
           )}
         </div>
-        <p className="text-steel-500 text-xs mt-3">Illustration of U.S. states with professional registration; the jurisdiction list is the authoritative record.</p>
+        <p className="text-steel-400 text-[11px] mt-3 leading-relaxed">
+          Illustration of U.S. states with professional registration; the jurisdiction list is the authoritative record.
+        </p>
       </div>
 
-      <h3 className="text-primary-500 font-bold text-xl mb-1">Licensed jurisdictions</h3>
-      <p className="text-steel-500 text-sm mb-6">Select a jurisdiction to keep it highlighted on the map. Click again to clear.</p>
-
-      <div className="bg-white rounded-xl border border-gray-200 p-6 md:p-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* ── Jurisdiction list — Option B: flush 3-column grid ── */}
+      <div className="overflow-hidden rounded-xl border border-gray-200">
+        <div className="grid grid-cols-1 md:grid-cols-3 md:divide-x divide-gray-200">
           {[
-            { title: "PE ONLY", names: peOnlyNames, badge: "bg-primary-500" },
-            { title: "SE ONLY", names: seOnlyNames, badge: "bg-accent-500" },
-            { title: "PE & SE", names: peSeNames, badge: "bg-steel-700" },
-          ].filter(c => c.names.length > 0).map(({ title, names, badge }) => (
-            <div key={title}>
+            {
+              title: "PE only",
+              names: peOnlyNames,
+              titleColor: "#33647e",
+              dotColor: "#3d6b6e",
+              badgeBg: "#eaf3f3",
+              badgeText: "#2a4d50",
+            },
+            {
+              title: "SE only",
+              names: seOnlyNames,
+              titleColor: "#b25b30",
+              dotColor: "#c4703c",
+              badgeBg: "#fef0e8",
+              badgeText: "#8a4a25",
+            },
+            {
+              title: "PE & SE",
+              names: peSeNames,
+              titleColor: "#2d5254",
+              dotColor: "#2d5254",
+              badgeBg: "#e4eeee",
+              badgeText: "#1d3638",
+            },
+          ].map(({ title, names, titleColor, dotColor, badgeBg, badgeText }) => (
+            <div key={title} className="bg-white p-5 md:p-6 border-b md:border-b-0 border-gray-200 last:border-b-0">
+              {/* Column header */}
               <div className="flex items-center justify-between mb-4">
-                <h4 className="text-sm font-bold text-accent-500 tracking-wide">{title}</h4>
-                <span className={`w-7 h-7 rounded-full ${badge} text-white text-xs font-bold flex items-center justify-center`}>{names.length}</span>
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{background: dotColor}} />
+                  <h4 className="text-xs font-semibold uppercase tracking-widest" style={{color: titleColor}}>{title}</h4>
+                </div>
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{background: badgeBg, color: badgeText}}>
+                  {names.length}
+                </span>
               </div>
-              <div className="grid grid-cols-2 gap-2">
+              {/* State list */}
+              <div className="flex flex-col gap-0.5">
                 {names.map(name => (
                   <button
                     key={name}
-                    className={`text-left text-sm py-2 px-3 rounded-md border transition-all cursor-pointer ${isActive(name)?"bg-primary-500 text-white border-primary-500":"text-steel-600 border-gray-200 hover:border-primary-300 hover:bg-primary-50"}`}
+                    className={`text-left text-sm py-1.5 px-2 rounded-md transition-all cursor-pointer w-full ${
+                      isActive(name)
+                        ? "bg-primary-500 text-white"
+                        : "text-steel-600 hover:bg-gray-50 hover:text-primary-500"
+                    }`}
                     onMouseEnter={() => handleHoverName(name)}
                     onMouseLeave={handleLeaveName}
                     onClick={() => handleClickName(name)}
-                  >{name}</button>
+                  >
+                    {name}
+                  </button>
                 ))}
               </div>
             </div>

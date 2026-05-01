@@ -241,20 +241,6 @@ body {
   overflow: hidden;
 }
 
-/* ASE watermark in CTA */
-.ase-watermark {
-  position: absolute;
-  right: 40px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 7rem;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.08);
-  letter-spacing: 0.05em;
-  user-select: none;
-  pointer-events: none;
-}
-
 /* Blockquote style */
 .styled-blockquote {
   border-left: 3px solid var(--color-accent);
@@ -270,8 +256,9 @@ body {
   display: flex;
   align-items: center;
   overflow: hidden;
-  min-height: 72vh;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 82%);
+  min-height: 80vh;
+  /* Dark fallback so the hero stays dark while the bg image loads. */
+  background-color: var(--color-steel-dark);
 }
 
 /* Stats bar */
@@ -372,5 +359,15 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  /* Hide native scrollbar — used by the project carousel */
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
   }
 }

@@ -6,7 +6,7 @@ export default function TrussDesignPage() {
       label="ENGINEERING SPECIALTY"
       title="Truss Design"
       description="At Arizona Structural Experts, we work with several clients to analyze new trusses and repair existing trusses."
-      heroImage="/images/truss-design.jpg"
+      heroSlot="serviceTruss"
       blockquote="Our truss engineering team provides comprehensive analysis, design, and repair strategies for both residential and commercial truss systems. We ensure structural integrity while optimizing material usage and cost efficiency."
       expertise={[
         {

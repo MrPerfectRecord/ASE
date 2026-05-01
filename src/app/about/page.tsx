@@ -1,149 +1,246 @@
-import Link from "next/link";
 import FooterCTA from "@/components/FooterCTA";
-import USMap from "@/components/USMap";
 import TeamSection from "@/components/TeamSection";
+import StatCounter from "@/components/StatCounter";
+import AboutHero from "@/components/AboutHero";
+import USMap from "@/components/USMap";
+import EditablePhoto from "@/components/EditablePhoto";
+import type { PhotosConfig } from "@/lib/photos";
 
 export const metadata = {
   title: "About Us | Arizona Structural Experts",
-  description: "Learn about Arizona Structural Experts, our structural engineering team, and our commitment to precise design, retrofit, truss, and forensic engineering solutions.",
+  description:
+    "Learn about Arizona Structural Experts, our structural engineering team, and our commitment to precise design, retrofit, truss, and forensic engineering solutions.",
 };
+
+const milestones: { title: string; year: string; imgKey: keyof PhotosConfig; alt: string }[] = [
+  {
+    title: "Journey began",
+    year: "2004",
+    imgKey: "aboutStory1",
+    alt: "Concrete and steel framework on a structural design project",
+  },
+  {
+    title: "Multi-state PE & SE coverage",
+    year: "2024",
+    imgKey: "aboutStory2",
+    alt: "Retrofit project showing reinforced framing detail",
+  },
+];
+
+const trustReasons = [
+  {
+    title: "Code-Aligned Engineering",
+    desc:
+      "We design, retrofit, and review against the most current adopted codes — verified against jurisdiction-specific amendments. Calcs are transparent and defensible at plan check and in court.",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+        <path d="m9 12 2 2 4-4" />
+      </svg>
+    ),
+  },
+  {
+    title: "Practical Solutions",
+    desc:
+      "Plans you can actually build. We balance structural integrity with constructability and cost — and we answer the phone when the field has a question.",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Precision in Forensics",
+    desc:
+      "Hundreds of forensic reports stand behind our expert testimony. Clear documentation, sound methodology, and conclusions that hold up in deposition.",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.3-4.3" />
+      </svg>
+    ),
+  },
+  {
+    title: "Multi-State Reach",
+    desc:
+      "PE and SE credentials in 19+ states, DC, and the USVI. If your project crosses jurisdictions, we cover the seal you need without subcontracting.",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg>
+    ),
+  },
+];
 
 export default function AboutPage() {
   return (
     <>
-      {/* Header Section */}
-      <header className="border-b border-steel-200/40 bg-section-a pt-10 pb-16 md:pt-12 md:pb-20">
+      {/* =================================================== */}
+      {/* 1. HERO — black bg, big centered title, panoramic    */}
+      {/*    image that reveals via clip-path expansion        */}
+      {/* =================================================== */}
+      <AboutHero />
+
+      {/* =================================================== */}
+      {/* 2. ABOUT + MILESTONES                                */}
+      {/* =================================================== */}
+      <section className="py-20 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
-          {/* Title Area */}
-          <div className="mb-10 md:mb-14 lg:mb-16">
-            <p className="section-label mb-1" style={{ color: "var(--color-accent)" }}>ABOUT</p>
-            <h1 className="mt-3 font-display font-semibold text-4xl md:text-5xl" style={{ color: 'var(--color-primary)' }}>About Us</h1>
-            <div className="mt-3 h-1 w-1/3 max-w-[7.5rem] bg-accent-500" />
-          </div>
-
-          {/* Two-column: Tagline + Approach */}
-          <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-start">
-            <p className="font-semibold leading-[1.08] text-balance" style={{ color: 'var(--color-primary)' }}>
-              <span className="block text-4xl md:text-5xl lg:text-6xl">Structural certainty for your build.</span>
-              <span className="mt-2 block text-2xl md:text-3xl lg:text-4xl font-medium md:mt-2.5">Clarity for your case.</span>
+          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-20 mb-16">
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary-500 lg:pt-2">
+              <span className="text-accent-500 mr-1.5">//</span> our story
             </p>
-            <div className="lg:pt-1">
-              <h2 className="text-xs font-semibold tracking-[0.2em] text-accent-500 uppercase">Our approach</h2>
-              <div className="mt-4 space-y-5 text-lg leading-relaxed text-steel-600">
-                <p>At Arizona Structural Experts, we focus on ensuring all projects are done in accordance with the most recent code. We seek to offer solutions that optimize time and costs, while maintaining high industry design standards. Our team of structural engineers and expert witnesses delivers efficient, practical solutions for structural design, retrofit upgrades, truss evaluations, and forensic engineering projects.</p>
-                <p>Whether we&apos;re designing a high-end custom home, retrofitting buildings, or testifying in complex litigation, we approach every project with precision, insight, and integrity. From the ground up &mdash; and even in the courtroom &mdash; we build confidence into every structure.</p>
-              </div>
+            <div className="max-w-3xl">
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] text-primary-500 mb-6 lowercase">
+                A creative structural engineering studio designing certainty for every build.
+              </h2>
+              <p className="text-steel-600 text-base md:text-lg leading-relaxed">
+                From custom homes and commercial buildings to seismic retrofits and forensic
+                investigations, we approach every project with the same commitment: clear
+                calculations, code-aligned design, and practical solutions our clients can
+                actually permit and build.
+              </p>
             </div>
           </div>
 
-          {/* Stats Bar */}
-          <div className="mt-14 rounded-lg px-8 py-10 md:px-12 md:py-12 lg:px-16" style={{ backgroundColor: 'var(--color-primary)' }}>
-            <ul className="grid grid-cols-1 justify-items-center gap-10 sm:grid-cols-3 sm:gap-y-0">
-              <li className="flex flex-col items-center gap-2 text-center sm:w-full sm:px-6 sm:first:border-l-0 sm:border-l sm:border-white/25 md:px-8">
-                <p className="font-display font-bold text-white text-3xl sm:text-4xl md:text-5xl tabular-nums">700+</p>
-                <p className="text-xs font-normal leading-snug text-white/85">Forensic Reports</p>
-              </li>
-              <li className="flex flex-col items-center gap-2 text-center sm:w-full sm:px-6 sm:first:border-l-0 sm:border-l sm:border-white/25 md:px-8">
-                <p className="font-display font-bold text-white text-3xl sm:text-4xl md:text-5xl tabular-nums">21+</p>
-                <p className="text-xs font-normal leading-snug text-white/85">Licensed Jurisdictions</p>
-              </li>
-              <li className="flex flex-col items-center gap-2 text-center sm:w-full sm:px-6 sm:first:border-l-0 sm:border-l sm:border-white/25 md:px-8">
-                <p className="font-display font-bold text-white text-3xl sm:text-4xl md:text-5xl tabular-nums">4</p>
-                <p className="text-xs font-normal leading-snug text-white/85">Core practice areas</p>
-              </li>
-            </ul>
+          {/* Milestone cards — images only, no captions */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {milestones.map((m) => (
+              <div key={m.year} className="animate-on-scroll group">
+                <div className="aspect-[5/4] rounded-lg overflow-hidden">
+                  <EditablePhoto
+                    slot={m.imgKey}
+                    alt={m.alt}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-      </header>
-
-      {/* Mission & Values Section */}
-      <section className="bg-section-c py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 gap-5 lg:grid-cols-3 lg:grid-rows-[auto_auto]">
-          {/* Our Mission - spans 2 cols, row 1 */}
-          <article className="border-l-4 border-l-accent-500 rounded bg-sand border border-steel-200/40 shadow-sm px-8 py-11 md:px-10 md:py-14 lg:col-span-2 lg:row-start-1 lg:col-start-1">
-            <h2 className="mb-5 font-display text-4xl text-primary-500">Our Mission</h2>
-            <p className="text-lg leading-relaxed text-steel-600">
-              At Arizona Structural Experts, our mission is to deliver{" "}
-              <span className="font-semibold text-primary-500">code-compliant</span>{" "}
-              engineering that does not just meet standards - it sets them. We believe in{" "}
-              <span className="font-semibold text-primary-500">optimized solutions</span>{" "}
-              that prioritize both structural integrity and architectural vision.
-            </p>
-          </article>
-
-          {/* Unwavering Compliance - row 2, col 1 */}
-          <article className="rounded bg-sand border border-steel-200/40 shadow-sm p-6 lg:row-start-2 lg:col-start-1">
-            <div className="flex items-start gap-3">
-              <svg className="mt-0.5 w-5 h-5 shrink-0 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-                <path d="m9 12 2 2 4-4" />
-              </svg>
-              <div>
-                <h3 className="font-semibold text-primary-500">Unwavering Compliance</h3>
-                <p className="mt-2 text-sm text-steel-600">Navigating complex Arizona building codes with meticulous, verifiable accuracy.</p>
-              </div>
-            </div>
-          </article>
-
-          {/* Precision Engineering - row 2, col 2 */}
-          <article className="rounded bg-sand border border-steel-200/40 shadow-sm p-6 lg:row-start-2 lg:col-start-2">
-            <div className="flex items-start gap-3">
-              <svg className="mt-0.5 w-5 h-5 shrink-0 text-accent-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                <path d="m12.99 6.74 1.93 3.44" />
-                <path d="M19.136 12a10 10 0 0 1-14.271 0" />
-                <path d="m21 21-2.16-3.84" />
-                <path d="m3 21 8.02-14.26" />
-                <circle cx="12" cy="5" r="2" />
-              </svg>
-              <div>
-                <h3 className="font-semibold text-primary-500">Precision Engineering</h3>
-                <p className="mt-2 text-sm text-steel-600">Advanced modeling and practical analysis to ensure every calculation is reliable.</p>
-              </div>
-            </div>
-          </article>
-
-          {/* Core Integrity - spans 1 col, 2 rows, col 3 */}
-          <article className="flex h-full flex-col rounded p-8 text-white shadow-sm lg:col-span-1 lg:row-span-2 lg:row-start-1 lg:col-start-3" style={{ backgroundColor: 'var(--color-primary)' }}>
-            <svg className="w-7 h-7 shrink-0 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 3v18" />
-              <path d="m19 8 3 8a5 5 0 0 1-6 0z" />
-              <path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1" />
-              <path d="m5 8 3 8a5 5 0 0 1-6 0z" />
-              <path d="M7 21h10" />
-            </svg>
-            <h2 className="mt-8 font-display text-4xl">Core Integrity</h2>
-            <p className="mt-5 text-base leading-relaxed text-white/85">Every project we touch is a testament to our dedication to honest, transparent, and resilient engineering practices.</p>
-          </article>
         </div>
       </section>
 
+      {/* =================================================== */}
+      {/* 3. TEAM (existing component)                         */}
+      {/* =================================================== */}
       <TeamSection />
 
-      {/* Licensing / Where We Work Section */}
-      <section id="licensing" className="bg-section-c py-20 md:py-24">
+      {/* =================================================== */}
+      {/* 3b. FUN FACTS — animated counters (above the map)    */}
+      {/* =================================================== */}
+      <section className="py-20 md:py-24 bg-section-a border-t border-steel-200/40">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="mb-12 max-w-3xl">
-            <p className="text-xs font-semibold tracking-[0.2em] text-accent-500 uppercase">Licensing &amp; reach</p>
-            <h2 className="mt-3 font-display text-3xl font-semibold text-primary-500 md:text-4xl">Where We Work</h2>
-            <div className="mt-3 h-1 w-1/3 max-w-[7.5rem] bg-accent-500" />
-            <p className="mt-4 text-steel-600">Licensed in 19 states, Washington DC, and the US Virgin Islands, with PE and SE credentials across key jurisdictions.</p>
+          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-20 mb-12">
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary-500 lg:pt-2">
+              <span className="text-accent-500 mr-1.5">//</span> fun facts
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] text-primary-500 max-w-3xl lowercase">
+              We design code-aligned, structurally sound spaces built to last.
+            </h2>
           </div>
 
-          <div className="space-y-10">
-            <div>
-              <div className="relative overflow-hidden rounded-xl border border-steel-200/40 bg-sand p-4 shadow-sm md:p-6">
-                <USMap />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-steel-200">
+            <div className="animate-on-scroll bg-section-a px-6 py-10 md:px-10 md:py-14">
+              <div className="font-display text-5xl md:text-6xl lg:text-7xl font-light text-primary-500 tabular-nums leading-none mb-3">
+                <StatCounter end={700} suffix="+" />
               </div>
-              <p className="mt-2 text-xs leading-relaxed text-steel-500">Illustration of U.S. states with professional registration; the jurisdiction list is the authoritative record.</p>
+              <p className="text-sm text-steel-500 font-medium tracking-wide uppercase">
+                Forensic Reports
+              </p>
+            </div>
+            <div className="animate-on-scroll bg-section-a px-6 py-10 md:px-10 md:py-14">
+              <div className="font-display text-5xl md:text-6xl lg:text-7xl font-light text-primary-500 tabular-nums leading-none mb-3">
+                <StatCounter end={21} suffix="+" />
+              </div>
+              <p className="text-sm text-steel-500 font-medium tracking-wide uppercase">
+                Licensed Jurisdictions
+              </p>
+            </div>
+            <div className="animate-on-scroll bg-section-a px-6 py-10 md:px-10 md:py-14">
+              <div className="font-display text-5xl md:text-6xl lg:text-7xl font-light text-primary-500 tabular-nums leading-none mb-3">
+                <StatCounter end={20} suffix="+" />
+              </div>
+              <p className="text-sm text-steel-500 font-medium tracking-wide uppercase">
+                Years of Experience
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer CTA */}
+      {/* =================================================== */}
+      {/* 4. LICENSING & REACH — interactive US map            */}
+      {/* =================================================== */}
+      <section className="py-20 md:py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-20 mb-12">
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary-500 lg:pt-2">
+              <span className="text-accent-500 mr-1.5">//</span> licensing &amp; reach
+            </p>
+            <div className="max-w-3xl">
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] text-primary-500 mb-6">
+                Where We Work
+              </h2>
+              <p className="text-steel-600 text-base leading-relaxed">
+                Licensed across the country with PE and SE credentials in key
+                jurisdictions. Hover or click any state to see what we&apos;re
+                licensed for there.
+              </p>
+            </div>
+          </div>
+
+          <div className="animate-on-scroll">
+            <USMap />
+          </div>
+        </div>
+      </section>
+
+      {/* =================================================== */}
+      {/* 5. WHY CLIENTS TRUST US                              */}
+      {/* =================================================== */}
+      <section className="py-20 md:py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-20">
+            <div className="lg:sticky lg:top-24 self-start">
+              <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary-500 mb-4">
+                <span className="text-accent-500 mr-1.5">//</span> how it works
+              </p>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] text-primary-500 lowercase">
+                Why Clients Trust Us
+              </h2>
+            </div>
+
+            <div className="space-y-px bg-steel-200">
+              {trustReasons.map((r) => (
+                <div
+                  key={r.title}
+                  className="animate-on-scroll bg-section-a hover:bg-white transition-colors duration-300 px-6 md:px-8 py-8 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 items-start group"
+                >
+                  <div>
+                    <h3 className="font-display text-xl font-semibold text-primary-500 mb-2 lowercase">
+                      {r.title}
+                    </h3>
+                    <p className="text-steel-600 text-sm md:text-base leading-relaxed max-w-xl">
+                      {r.desc}
+                    </p>
+                  </div>
+                  <div className="text-primary-500 group-hover:text-accent-500 transition-colors duration-300">
+                    {r.icon}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =================================================== */}
+      {/* Footer CTA                                           */}
+      {/* =================================================== */}
       <FooterCTA
         label="CONTACT"
-        heading="Need structural engineering in one of these jurisdictions?"
+        heading="Ready to bring us the bottleneck on your next build?"
         buttonText="Start a project inquiry"
         buttonHref="/contact"
       />
