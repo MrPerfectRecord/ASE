@@ -405,9 +405,8 @@ export default function HomePage() {
                 Designing for a structurally sound future
               </p>
 
-              <h1 className="font-display text-white font-light leading-[1.05] mb-8 text-4xl md:text-5xl lg:text-7xl">
-                Engineering Credentials<br />
-                You Can Verify
+              <h1 className="font-display text-white font-light leading-[1.05] mb-8 text-[2.25rem] sm:text-4xl md:text-5xl lg:text-7xl text-balance">
+                Engineering Credentials You Can Verify
               </h1>
 
               <div className="flex items-start gap-4 mb-10 max-w-xl">
@@ -436,28 +435,7 @@ export default function HomePage() {
       </section>
 
       {/* =========================================================== */}
-      {/* 2. LICENSING & REACH (replaces stats with USMap)             */}
-      {/* =========================================================== */}
-      <section className="py-24 bg-sand">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="animate-on-scroll mb-12 max-w-2xl">
-            <p className="section-label mb-2">LICENSING &amp; REACH</p>
-            <h2 className="section-heading">Engineering credentials you can verify</h2>
-            <span className="accent-underline" />
-            <p className="mt-4 text-steel-600 text-sm leading-relaxed">
-              Licensed across the country with PE and SE credentials in key jurisdictions.
-              Hover or click any state to see what we&apos;re licensed for there.
-            </p>
-          </div>
-
-          <div className="animate-on-scroll">
-            <USMap />
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================== */}
-      {/* 3. ABOUT / VALUE PROP                                        */}
+      {/* 2. ABOUT / VALUE PROP                                        */}
       {/* =========================================================== */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
@@ -558,12 +536,11 @@ export default function HomePage() {
                   key={s.title}
                   onClick={() => setActiveService(i)}
                   onMouseEnter={() => setActiveService(i)}
-                  className={`group relative overflow-hidden text-left transition-[flex,background] duration-500 ease-out border-r last:border-r-0 border-steel-200/60 ${
+                  className={`group relative overflow-hidden text-left transition-[flex-grow,flex-basis,background-color] duration-[900ms] ease-[cubic-bezier(0.65,0,0.35,1)] border-b md:border-b-0 border-r-0 md:border-r last:border-b-0 md:last:border-r-0 border-steel-200/60 ${
                     isActive
-                      ? "flex-[1_1_0%] md:flex-[6_1_0%]"
-                      : "flex-[1_1_0%] md:flex-[1_1_0%] hover:bg-steel-50"
+                      ? "min-h-[320px] md:min-h-[360px] flex-[1_1_0%] md:flex-[6_1_0%]"
+                      : "min-h-[68px] md:min-h-[360px] flex-[1_1_0%] md:flex-[1_1_0%] hover:bg-steel-50"
                   }`}
-                  style={{ minHeight: isActive ? 360 : 360 }}
                 >
                   {isActive ? (
                     /* ACTIVE — image card with number badge + bottom caption */
@@ -575,17 +552,30 @@ export default function HomePage() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
-                      {/* Number badge */}
-                      <div className="absolute top-5 left-5 w-12 h-12 rounded-full bg-primary-500 text-white flex items-center justify-center text-sm font-bold shadow-md">
+                      {/* Number badge — fades in once card finishes expanding */}
+                      <div
+                        className="absolute top-5 left-5 w-12 h-12 rounded-full bg-primary-500 text-white flex items-center justify-center text-sm font-bold shadow-md"
+                        style={{
+                          opacity: 0,
+                          animation: "fadeIn 0.35s ease-out 0.75s forwards",
+                        }}
+                      >
                         {num}
                       </div>
 
-                      {/* Caption */}
-                      <div className="absolute bottom-0 left-0 right-0 p-6">
-                        <h3 className="text-white font-display text-xl md:text-2xl font-semibold mb-2">
+                      {/* Caption — same delayed fade-in so it doesn't slide
+                          horizontally with the card during the flex transition */}
+                      <div
+                        className="absolute bottom-0 left-6 p-6 pl-0 max-w-md"
+                        style={{
+                          opacity: 0,
+                          animation: "fadeIn 0.35s ease-out 0.75s forwards",
+                        }}
+                      >
+                        <h3 className="text-white font-display text-xl md:text-2xl font-semibold mb-2 whitespace-nowrap">
                           {s.title}
                         </h3>
-                        <p className="text-white/80 text-sm leading-relaxed mb-3 max-w-md">
+                        <p className="text-white/80 text-sm leading-relaxed mb-3">
                           {s.desc}
                         </p>
                         <Link
@@ -601,22 +591,35 @@ export default function HomePage() {
                       </div>
                     </div>
                   ) : (
-                    /* COLLAPSED — narrow strip with number on top + vertical title */
-                    <div className="flex flex-col items-center justify-between h-full py-6 px-2">
-                      <span className="w-10 h-10 rounded-full border border-steel-300 text-steel-500 flex items-center justify-center text-xs font-semibold">
-                        {num}
-                      </span>
-                      <span
-                        className="text-steel-500 group-hover:text-primary-500 text-sm font-medium tracking-wide whitespace-nowrap transition-colors"
-                        style={{
-                          writingMode: "vertical-rl",
-                          transform: "rotate(180deg)",
-                        }}
-                      >
-                        {s.title}
-                      </span>
-                      <span className="w-10" aria-hidden="true" />
-                    </div>
+                    /* COLLAPSED state — different layout on mobile vs desktop */
+                    <>
+                      {/* Mobile: compact horizontal row (number + title) */}
+                      <div className="flex md:hidden items-center h-full py-4 px-5 gap-4">
+                        <span className="w-9 h-9 rounded-full border border-steel-300 text-steel-500 flex items-center justify-center text-xs font-semibold shrink-0">
+                          {num}
+                        </span>
+                        <span className="text-steel-700 text-base font-medium">
+                          {s.title}
+                        </span>
+                      </div>
+
+                      {/* Desktop: narrow vertical strip with rotated title */}
+                      <div className="hidden md:flex flex-col items-center justify-between h-full py-6 px-2">
+                        <span className="w-10 h-10 rounded-full border border-steel-300 text-steel-500 flex items-center justify-center text-xs font-semibold">
+                          {num}
+                        </span>
+                        <span
+                          className="text-steel-500 group-hover:text-primary-500 text-sm font-medium tracking-wide whitespace-nowrap transition-colors"
+                          style={{
+                            writingMode: "vertical-rl",
+                            transform: "rotate(180deg)",
+                          }}
+                        >
+                          {s.title}
+                        </span>
+                        <span className="w-10" aria-hidden="true" />
+                      </div>
+                    </>
                   )}
                 </button>
               );
@@ -661,41 +664,22 @@ export default function HomePage() {
       </section>
 
       {/* =========================================================== */}
-      {/* 5b. AFFILIATIONS / TRUSTED PARTNERS                          */}
+      {/* 5b. LICENSING & REACH (USMap, moved below Our Projects)      */}
       {/* =========================================================== */}
-      <section className="py-20 bg-sand">
+      <section className="py-24 bg-sand">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="animate-on-scroll mb-12 max-w-3xl">
-            <p className="section-label mb-2">TRUSTED STRUCTURAL ENGINEERING</p>
-            <h2 className="section-heading">
-              Built on credibility, precision, and responsive collaboration.
-            </h2>
+          <div className="animate-on-scroll mb-12 max-w-2xl">
+            <p className="section-label mb-2">LICENSING &amp; REACH</p>
+            <h2 className="section-heading">Engineering credentials you can verify</h2>
             <span className="accent-underline" />
+            <p className="mt-4 text-steel-600 text-sm leading-relaxed">
+              Licensed across the country with PE and SE credentials in key jurisdictions.
+              Hover or click any state to see what we&apos;re licensed for there.
+            </p>
           </div>
-          <div className="animate-on-scroll grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {affiliations.map((a) => (
-              <a
-                key={a.abbr}
-                href={a.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="affiliation-card flex flex-col items-center justify-center py-8 cursor-pointer transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:border-primary-400"
-                style={{ transitionProperty: "transform, box-shadow, border-color, background-color" }}
-                aria-label={`${a.name} — opens in a new tab`}
-              >
-                <img
-                  src={a.logo}
-                  alt={a.name}
-                  className="h-16 mx-auto object-contain mb-3"
-                />
-                <p className="text-sm text-steel-600 text-center leading-snug mb-2 px-3">
-                  {a.name}
-                </p>
-                <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-accent-500">
-                  {a.type}
-                </span>
-              </a>
-            ))}
+
+          <div className="animate-on-scroll">
+            <USMap />
           </div>
         </div>
       </section>
@@ -850,6 +834,46 @@ export default function HomePage() {
                   <p className="text-steel-500 text-xs">{t.title}</p>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================== */}
+      {/* 8b. AFFILIATIONS / TRUSTED PARTNERS                          */}
+      {/* =========================================================== */}
+      <section className="py-20 bg-sand">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="animate-on-scroll mb-12 max-w-3xl">
+            <p className="section-label mb-2">TRUSTED STRUCTURAL ENGINEERING</p>
+            <h2 className="section-heading">
+              Built on credibility, precision, and responsive collaboration.
+            </h2>
+            <span className="accent-underline" />
+          </div>
+          <div className="animate-on-scroll grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {affiliations.map((a) => (
+              <a
+                key={a.abbr}
+                href={a.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="affiliation-card flex flex-col items-center justify-center py-8 cursor-pointer transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:border-primary-400"
+                style={{ transitionProperty: "transform, box-shadow, border-color, background-color" }}
+                aria-label={`${a.name} — opens in a new tab`}
+              >
+                <img
+                  src={a.logo}
+                  alt={a.name}
+                  className="h-16 mx-auto object-contain mb-3"
+                />
+                <p className="text-sm text-steel-600 text-center leading-snug mb-2 px-3">
+                  {a.name}
+                </p>
+                <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-accent-500">
+                  {a.type}
+                </span>
+              </a>
             ))}
           </div>
         </div>

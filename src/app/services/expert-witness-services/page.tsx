@@ -3,6 +3,7 @@ import FooterCTA from "@/components/FooterCTA";
 import PhoneCTA from "@/components/PhoneCTA";
 import RevealText from "@/components/RevealText";
 import EditablePhoto from "@/components/EditablePhoto";
+import ServiceProjectsSection from "@/components/ServiceProjectsSection";
 
 const expertiseCards = [
   { icon: "filter", title: "Flood Modeling", desc: "Advanced hydrodynamic simulations to determine water velocity, depth, and hydrostatic pressure impact on foundations.", linkText: "TECHNICAL ANALYSIS" },
@@ -161,6 +162,9 @@ export default function ExpertWitnessPage() {
           </div>
         </div>
       </section>
+
+      {/* Our Projects — Expert Witness specific */}
+      <ServiceProjectsSection serviceKey="expertWitness" />
 
       <FooterCTA
         label="EXPERT WITNESS & TESTIMONY"

@@ -8,7 +8,8 @@ import { doc, getDoc } from "firebase/firestore";
 
 const navItems = [
   { href: "/admin/team", label: "Team Members" },
-  { href: "/admin/projects", label: "Projects" },
+  { href: "/admin/projects", label: "Projects (Homepage)" },
+  { href: "/admin/service-projects", label: "Service Projects" },
   { href: "/admin/testimonials", label: "Testimonials" },
   { href: "/admin/careers", label: "Careers" },
   { href: "/admin/jurisdictions", label: "Licensed Jurisdictions" },

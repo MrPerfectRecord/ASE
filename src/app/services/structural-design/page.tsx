@@ -7,6 +7,7 @@ export default function StructuralDesignPage() {
       title="Structural Design"
       description="From custom homes to solar arrays, our structural design team brings creativity and technical excellence to every project."
       heroSlot="serviceStructural"
+      serviceKey="structural"
       blockquote="We specialize in high-end residential structures, steel shade canopies, solar panel supports, and foundation systems. Our designs balance form and function, delivering safe, efficient, and visually striking structures that stand the test of time."
       expertise={[
         {
@@ -37,6 +38,12 @@ export default function StructuralDesignPage() {
           icon: "building",
           title: "Commercial buildings",
           desc: "Comprehensive structural engineering solutions for offices, retail centers, warehouses, and mixed-use developments, designed to meet commercial load requirements and local building codes.",
+          linkText: "",
+        },
+        {
+          icon: "tool",
+          title: "RV Garages",
+          desc: "Structural design for oversized RV garages, motor coach storage buildings, and shop/garage combinations — engineered for tall door openings, long clear-spans, and the heavy concentrated loads that come with parked recreational vehicles.",
           linkText: "",
         },
       ]}

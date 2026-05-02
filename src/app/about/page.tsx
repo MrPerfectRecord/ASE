@@ -170,34 +170,7 @@ export default function AboutPage() {
       </section>
 
       {/* =================================================== */}
-      {/* 4. LICENSING & REACH — interactive US map            */}
-      {/* =================================================== */}
-      <section className="py-20 md:py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-20 mb-12">
-            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary-500 lg:pt-2">
-              <span className="text-accent-500 mr-1.5">//</span> licensing &amp; reach
-            </p>
-            <div className="max-w-3xl">
-              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] text-primary-500 mb-6">
-                Where We Work
-              </h2>
-              <p className="text-steel-600 text-base leading-relaxed">
-                Licensed across the country with PE and SE credentials in key
-                jurisdictions. Hover or click any state to see what we&apos;re
-                licensed for there.
-              </p>
-            </div>
-          </div>
-
-          <div className="animate-on-scroll">
-            <USMap />
-          </div>
-        </div>
-      </section>
-
-      {/* =================================================== */}
-      {/* 5. WHY CLIENTS TRUST US                              */}
+      {/* 4. WHY CLIENTS TRUST US                              */}
       {/* =================================================== */}
       <section className="py-20 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
@@ -231,6 +204,33 @@ export default function AboutPage() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =================================================== */}
+      {/* 5. LICENSING & REACH — interactive US map            */}
+      {/* =================================================== */}
+      <section className="py-20 md:py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-10 lg:gap-20 mb-12">
+            <p className="text-xs font-semibold tracking-[0.18em] uppercase text-primary-500 lg:pt-2">
+              <span className="text-accent-500 mr-1.5">//</span> licensing &amp; reach
+            </p>
+            <div className="max-w-3xl">
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-light leading-[1.1] text-primary-500 mb-6">
+                Where We Work
+              </h2>
+              <p className="text-steel-600 text-base leading-relaxed">
+                Licensed across the country with PE and SE credentials in key
+                jurisdictions. Hover or click any state to see what we&apos;re
+                licensed for there.
+              </p>
+            </div>
+          </div>
+
+          <div className="animate-on-scroll">
+            <USMap />
           </div>
         </div>
       </section>

@@ -7,6 +7,7 @@ export default function RetrofitDesignPage() {
       title="Retrofit Design"
       description="When a structure needs to perform better - whether for safety, functionality, or compliance - we deliver retrofit solutions that are smart, effective, and efficient."
       heroSlot="serviceRetrofit"
+      serviceKey="retrofit"
       blockquote="Our team uses reinforced concrete, carbon fiber, and a wide range of modern materials and methods to address structural issues. We focus on delivering the right fix with minimal disruption - saving time, reducing costs, and ensuring your property performs as it should."
       blockquoteSubtitle="Engineering innovative and cost-effective upgrades for existing structures to meet evolving standards and needs."
       expertise={[

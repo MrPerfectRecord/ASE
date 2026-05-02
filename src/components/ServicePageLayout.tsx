@@ -3,6 +3,7 @@ import FooterCTA from "./FooterCTA";
 import PhoneCTA from "./PhoneCTA";
 import RevealText from "./RevealText";
 import EditablePhoto from "./EditablePhoto";
+import ServiceProjectsSection, { type ServiceKey } from "./ServiceProjectsSection";
 import type { PhotosConfig } from "@/lib/photos";
 
 interface ExpertiseCard {
@@ -18,6 +19,8 @@ interface ServicePageLayoutProps {
   description: string;
   /** Slot key for the hero image; editable from /admin/dev. */
   heroSlot: keyof PhotosConfig;
+  /** Service key for the projects section (one of structural / retrofit / truss / expertWitness). */
+  serviceKey: ServiceKey;
   blockquote: string;
   blockquoteSubtitle?: string;
   expertise: ExpertiseCard[];
@@ -47,7 +50,7 @@ const iconMap: Record<string, JSX.Element> = {
 };
 
 export default function ServicePageLayout({
-  label, title, description, heroSlot, blockquote, blockquoteSubtitle,
+  label, title, description, heroSlot, serviceKey, blockquote, blockquoteSubtitle,
   expertise, ctaLabel, ctaHeading, ctaButtonText,
   primaryCTA = "Start a project inquiry",
 }: ServicePageLayoutProps) {
@@ -127,6 +130,9 @@ export default function ServicePageLayout({
           </div>
         </div>
       </section>
+
+      {/* Our Projects — service-specific */}
+      <ServiceProjectsSection serviceKey={serviceKey} />
 
       <FooterCTA
         label={ctaLabel}

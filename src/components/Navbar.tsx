@@ -234,11 +234,17 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile menu */}
-        <div className={`mobile-menu lg:hidden ${mobileOpen ? "open" : ""}`}>
+        {/* Mobile menu — always solid so it doesn't bleed into the hero behind */}
+        <div
+          className={`mobile-menu lg:hidden ${mobileOpen ? "open" : ""} ${
+            isTransparent
+              ? "bg-steel-900 shadow-xl"
+              : "bg-white shadow-lg"
+          }`}
+        >
           <div
             className={`px-6 pb-5 pt-2 space-y-1 border-t ${
-              isTransparent ? "border-white/15" : "border-steel-200"
+              isTransparent ? "border-white/10" : "border-steel-200"
             }`}
           >
             {navLinks.map((link) => {
