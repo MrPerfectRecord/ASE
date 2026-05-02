@@ -1,5 +1,11 @@
 import ServicePageLayout from "@/components/ServicePageLayout";
 
+export const metadata = {
+  title: "Structural Design",
+  description:
+    "PE-licensed structural engineering for residential and commercial projects in Arizona — custom homes, commercial buildings, RV garages, solar mounting, and steel canopies.",
+};
+
 export default function StructuralDesignPage() {
   return (
     <ServicePageLayout

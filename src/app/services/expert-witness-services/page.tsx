@@ -5,6 +5,12 @@ import RevealText from "@/components/RevealText";
 import EditablePhoto from "@/components/EditablePhoto";
 import ServiceProjectsSection from "@/components/ServiceProjectsSection";
 
+export const metadata = {
+  title: "Expert Witness & Testimony",
+  description:
+    "Forensic structural engineering and expert witness testimony for litigation, insurance claims, and structural disputes. 700+ forensic reports, courtroom-ready opinions.",
+};
+
 const expertiseCards = [
   { icon: "filter", title: "Flood Modeling", desc: "Advanced hydrodynamic simulations to determine water velocity, depth, and hydrostatic pressure impact on foundations.", linkText: "TECHNICAL ANALYSIS" },
   { icon: "building", title: "Structural Defects", desc: "Identification of design errors, material fatigue, and construction deviations in residential and commercial assets.", linkText: "FORENSIC REVIEW" },

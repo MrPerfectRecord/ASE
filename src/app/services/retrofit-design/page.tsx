@@ -1,5 +1,11 @@
 import ServicePageLayout from "@/components/ServicePageLayout";
 
+export const metadata = {
+  title: "Retrofit Design",
+  description:
+    "Seismic retrofit, foundation reinforcement, carbon-fiber strengthening, and code-compliance upgrades for existing structures. Engineered to permit and built to last.",
+};
+
 export default function RetrofitDesignPage() {
   return (
     <ServicePageLayout

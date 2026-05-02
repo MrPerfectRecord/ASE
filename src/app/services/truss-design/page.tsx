@@ -1,5 +1,11 @@
 import ServicePageLayout from "@/components/ServicePageLayout";
 
+export const metadata = {
+  title: "Truss Design",
+  description:
+    "New truss design and repair plans for wood- and metal-plate-connected systems. Load-path analysis and field-fix engineering for residential and commercial builds.",
+};
+
 export default function TrussDesignPage() {
   return (
     <ServicePageLayout
