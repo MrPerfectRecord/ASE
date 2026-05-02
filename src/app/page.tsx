@@ -146,9 +146,16 @@ const processSteps = [
 ];
 
 // ---------------------------------------------------------------------------
-// Section 8 — Testimonials (placeholder copy — easy to swap once real ones land)
+// Section 8 — Testimonials. Defaults; live ones fetched from Firestore at
+// runtime (editable from /admin/testimonials).
 // ---------------------------------------------------------------------------
-const testimonials = [
+interface Testimonial {
+  id?: string;
+  quote: string;
+  name: string;
+  title: string;
+}
+const DEFAULT_TESTIMONIALS: Testimonial[] = [
   {
     quote:
       "ASE turned a stalled retrofit into a permitted set in under three weeks. Calcs were tight, AHJ accepted them on the first review.",
@@ -298,6 +305,7 @@ export default function HomePage() {
   const [activeService, setActiveService] = useState(0);
   const [openStep, setOpenStep] = useState<number | null>(0);
   const [projects, setProjects] = useState<ProjectCard[]>(DEFAULT_PROJECTS);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(DEFAULT_TESTIMONIALS);
 
   // Load projects from Firestore (editable at /admin/projects). Falls back to
   // DEFAULT_PROJECTS if the collection is empty or the fetch fails.
@@ -338,6 +346,30 @@ export default function HomePage() {
         if (filtered.length > 0) setProjects(filtered);
       } catch (err) {
         console.error("Failed to load projects:", err);
+      }
+    };
+    load();
+  }, []);
+
+  // Load testimonials from Firestore (editable at /admin/testimonials).
+  // Falls back to DEFAULT_TESTIMONIALS if empty / fetch fails.
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const snap = await getDocs(collection(db, "testimonials"));
+        if (snap.empty) return;
+        const all = snap.docs.map((d) => ({
+          id: d.id,
+          ...(d.data() as Omit<Testimonial, "id"> & { active?: boolean; order?: number }),
+        }));
+        const filtered = all
+          .filter((t) => t.active !== false && t.quote && t.name)
+          .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+          .slice(0, 3)
+          .map((t) => ({ id: t.id, quote: t.quote, name: t.name, title: t.title ?? "" }));
+        if (filtered.length > 0) setTestimonials(filtered);
+      } catch (err) {
+        console.error("Failed to load testimonials:", err);
       }
     };
     load();
@@ -801,7 +833,7 @@ export default function HomePage() {
 
           <div className="animate-on-scroll grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((t) => (
-              <div key={t.name + t.title} className="bg-white border border-steel-200/40 rounded-lg p-7 flex flex-col">
+              <div key={t.id ?? t.name + t.title} className="bg-white border border-steel-200/40 rounded-lg p-7 flex flex-col">
                 <svg
                   className="w-8 h-8 text-accent-500 mb-4 opacity-90"
                   fill="currentColor"
