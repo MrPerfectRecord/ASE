@@ -896,9 +896,8 @@ export default function HomePage() {
             What&apos;s holding up your structural sign-off?
           </h2>
           <p className="text-white/70 text-sm leading-relaxed mb-8 max-w-xl mx-auto">
-            Bring us the bottleneck: design, seismic retrofit, truss packages,
-            expert testimony — PE &amp; SE where you build, calcs you can permit
-            and defend, engineers who answer the phone.
+            From custom builds to truss packages, we deliver quality engineering
+            and process transparency to our clients.
           </p>
           <Link href="/contact" className="btn-primary">
             Schedule Consultation
