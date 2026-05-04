@@ -301,6 +301,50 @@ function ProjectCarousel({ projects }: { projects: ProjectCard[] }) {
   );
 }
 
+// HeroVideo — wraps the autoplay <video> with a mobile-friendly fallback.
+// iOS Safari sometimes ignores the `autoPlay` attribute even with `muted` +
+// `playsInline`; calling .play() in an effect after mount works around it.
+function HeroVideo() {
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    v.muted = true; // iOS only autoplays when muted is set programmatically too
+    const tryPlay = () => {
+      const p = v.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+    tryPlay();
+    // Some mobile browsers wait for first user interaction. Hook into that.
+    const onTap = () => {
+      tryPlay();
+      window.removeEventListener("touchstart", onTap);
+      window.removeEventListener("click", onTap);
+    };
+    window.addEventListener("touchstart", onTap, { passive: true });
+    window.addEventListener("click", onTap);
+    return () => {
+      window.removeEventListener("touchstart", onTap);
+      window.removeEventListener("click", onTap);
+    };
+  }, []);
+  return (
+    <video
+      ref={ref}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      // intentionally no poster — a stale poster image would briefly flash
+      // before the video starts. Section bg is bg-steel-900 instead.
+      className="w-full h-full object-cover"
+    >
+      <source src="/videos/hero.mp4" type="video/mp4" />
+    </video>
+  );
+}
+
 export default function HomePage() {
   const [activeService, setActiveService] = useState(0);
   const [openStep, setOpenStep] = useState<number | null>(0);
@@ -383,18 +427,9 @@ export default function HomePage() {
       {/* =========================================================== */}
       {/* 1. HERO — full-viewport video                                */}
       {/* =========================================================== */}
-      <section className="relative min-h-[100vh] overflow-hidden">
+      <section className="relative min-h-[100vh] overflow-hidden bg-steel-900">
         <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/home-hero.png"
-            className="w-full h-full object-cover"
-          >
-            <source src="/videos/hero.mp4" type="video/mp4" />
-          </video>
+          <HeroVideo />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70" />
         </div>
 

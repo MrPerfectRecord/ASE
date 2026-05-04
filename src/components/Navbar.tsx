@@ -234,28 +234,21 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile menu — always solid so it doesn't bleed into the hero behind */}
+        {/* Mobile menu — always white so it reads consistently regardless of
+            whether the navbar is over a dark hero or a light page. */}
         <div
-          className={`mobile-menu lg:hidden ${mobileOpen ? "open" : ""} ${
-            isTransparent
-              ? "bg-steel-900 shadow-xl"
-              : "bg-white shadow-lg"
+          className={`mobile-menu lg:hidden bg-white shadow-lg ${
+            mobileOpen ? "open" : ""
           }`}
         >
-          <div
-            className={`px-6 pb-5 pt-2 space-y-1 border-t ${
-              isTransparent ? "border-white/10" : "border-steel-200"
-            }`}
-          >
+          <div className="px-6 pb-5 pt-2 space-y-1 border-t border-steel-200">
             {navLinks.map((link) => {
               if (link.hasDropdown) {
                 return (
                   <div key={link.href}>
                     <button
                       onClick={() => setMobileServicesOpen((v) => !v)}
-                      className={`w-full flex items-center justify-between py-3 text-[15px] font-medium ${
-                        isTransparent ? "text-white/90" : "text-steel-700"
-                      }`}
+                      className="w-full flex items-center justify-between py-3 text-[15px] font-medium text-steel-700"
                     >
                       <span>Services</span>
                       <svg
@@ -275,9 +268,7 @@ export default function Navbar() {
                             key={s.href}
                             href={s.href}
                             onClick={() => setMobileOpen(false)}
-                            className={`block py-2 text-sm ${
-                              isTransparent ? "text-white/75 hover:text-white" : "text-steel-600 hover:text-primary-500"
-                            }`}
+                            className="block py-2 text-sm text-steel-600 hover:text-primary-500"
                           >
                             {s.name}
                           </Link>
@@ -295,13 +286,7 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
                   className={`block py-3 text-[15px] font-medium ${
-                    active
-                      ? isTransparent
-                        ? "text-white"
-                        : "text-primary-500"
-                      : isTransparent
-                      ? "text-white/85"
-                      : "text-steel-700"
+                    active ? "text-primary-500" : "text-steel-700"
                   }`}
                 >
                   {link.label}

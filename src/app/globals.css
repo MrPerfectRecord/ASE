@@ -72,18 +72,20 @@ body {
 /* Hero background text */
 .hero-bg-text {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(4rem, 10vw, 8rem);
+  font-size: clamp(1.3rem, 7.5vw, 8rem);
   font-weight: 300;
   letter-spacing: 0.04em;
   color: rgba(255, 255, 255, 0.18);
   white-space: nowrap;
   position: absolute;
-  bottom: -0.1em;
+  bottom: -0.05em;
   left: 50%;
   transform: translateX(-50%);
   user-select: none;
   pointer-events: none;
   z-index: 5;
+  max-width: 100vw;
+  padding: 0 0.5rem;
 }
 
 /* Service card hover */
